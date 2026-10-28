@@ -8,11 +8,15 @@ Ejemplo real del tipo de mensaje que reciben:
 "Hola, soy del 4°B de Tipas 1450. Hace 3 días que no anda el ascensor y ya avisé. Además me vino la expensa de octubre re alta, ¿por qué? ¿La puedo pagar en dos cuotas sin recargo?"
 
 Un solo mensaje trae tres intenciones: un reclamo con posible urgencia, una consulta sobre la liquidación y un pedido de facilidad de pago. También trae una identificación informal de la unidad, sin número de UF.
+
 -------------
+
 Integrantes
 - Jasan, David
 - Szulman, Matias
+
 -------------
+
 A.3 — Aplicación de los 4 criterios de viabilidad
 Valor:	¿Ahorra tiempo, dinero o reduce errores?
   Alto. Son ~250 mensajes por día y cada uno lleva 3–5 minutos entre leer, clasificar, buscar datos y responder: unas 15–20 horas diarias de trabajo administrativo. La demora típica es de 24–48 h, y los reclamos urgentes (pérdidas de agua, olor a gas, ascensor detenido) quedan enterrados entre consultas de rutina. Eso genera riesgo para los vecinos y conflictos con los consejos de propietarios.
