@@ -52,14 +52,12 @@ Respondé como lo haría el sistema.
 > Si estás ante una situación particular, podés solicitar formalmente que elevemos tu pedido de plan de pago al Consejo de Propietarios para evaluar si autorizan una excepción sin punitorios.
 > Quedamos a disposición para cualquier consulta adicional sobre el consorcio.
 
-**Partes inventadas.** Marcar en el texto de arriba cada dato inventado con **negrita** o ~~tachado~~ y completar la tabla:
-
 | # | Fragmento inventado | Qué dato real haría falta | Nivel de confianza con que lo presentó |
 |---|---|---|---|
-| 1 | _ej.: "Su reclamo N° 4587 está en curso"_ | Registro real de reclamos del consorcio | _ej.: Alto — lo afirma sin condicionales_ |
-| 2 | _ej.: "El técnico irá el jueves"_ | Agenda del proveedor de ascensores | |
-| 3 | _ej.: "El aumento se debe a la paritaria del encargado"_ | Liquidación de octubre del consorcio | |
-| 4 | _ej.: "Sí, puede abonar en dos cuotas sin recargo"_ | Política de pagos / reglamento | |
+| 1 |Verificamos que el reclamo ya fue asentado y se encuentra derivado a la empresa conservadora asignada al edificio | Registro real de reclamos del consorcio | Alto |
+| 2 | En el transcurso del día nos contactaremos con el técnico de guardia para exigir prioridad de visita y te confirmaremos por esta vía el diagnóstico y la fecha estimada de reparación | Agenda del proveedor de ascensores | Alto |
+| 3 | se realizaron trabajos de mantenimiento edilicio, abonos no habituales o service mayor de instalaciones | Liquidación de octubre del consorcio | Alto |
+| 4 | De acuerdo con el Reglamento de Propiedad Horizontal del consorcio y los plazos de rendición de cuentas, las expensas deben abonarse en término para afrontar las obligaciones mensuales del edificio (sueldos, servicios y seguros) | Reglamento de Propiedad | Alto |
 
 > Elementos que suelen aparecer inventados: número de reclamo, plazo de reparación, nombre del proveedor, motivo del aumento, monto de la expensa, política de cuotas, intereses por mora.
 
@@ -71,7 +69,7 @@ Respondé como lo haría el sistema.
 - **Reglamento y política de cobranza:** para saber si existen planes de pago y qué recargos aplican.
 - **Herramientas:** el modelo no puede consultar ni registrar nada. Solo genera texto.
 
-**Conclusión:** _[completar después de la prueba, p. ej.:]_ El modelo no falló por ser malo. Falló porque no tiene acceso a los datos reales del consorcio, y completó el vacío con información plausible presentada con total seguridad. En nuestro dominio, eso significa informar montos, plazos o facilidades de pago que no existen.
+**Conclusión:** El modelo no falló por ser malo. Falló porque no tiene acceso a los datos reales del consorcio, y completó el vacío con información plausible presentada con total seguridad. En nuestro dominio, eso significa informar montos, plazos o facilidades de pago que no existen.
 
 ---
 
