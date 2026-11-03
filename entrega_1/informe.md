@@ -73,27 +73,41 @@ Respondé como lo haría el sistema.
 
 ---
 
-# A.3 — Aplicación de los 4 criterios de viabilidad
-## Valor:	¿Ahorra tiempo, dinero o reduce errores?
-  **_Alto_**. Son ~250 mensajes por día y cada uno lleva 3–5 minutos entre leer, clasificar, buscar datos y responder: unas 15–20 horas diarias de trabajo administrativo. La demora típica es de 24–48 h, y los reclamos urgentes (pérdidas de agua, olor a gas, ascensor detenido) quedan enterrados entre consultas de rutina. Eso genera riesgo para los vecinos y conflictos con los consejos de propietarios.
-## Factibilidad	¿Se puede resolver hoy sin inventar tecnología?
-  **_Viable_**. Los LLM actuales extraen intenciones y entidades (unidad, rubro, urgencia) de mensajes informales en español rioplatense. El resto es software convencional: consultar el sistema de expensas, leer la planilla de reclamos, validar la unidad contra el padrón y aplicar reglas de prioridad.
-## Disponibilidad de datos	¿Hay información real sobre la que trabajar?
-  **_Disponibles, pero desordenados_**. Hay liquidaciones mensuales por consorcio (PDF/planilla), un registro de reclamos (planilla compartida), el padrón de UF con titulares, los reglamentos de copropiedad y las actas de asamblea (PDF, uno por edificio) y el listado de proveedores. Además, el historial de WhatsApp sirve para armar un lote de prueba realista.
-## Riesgo	¿Qué pasa si se equivoca?	Moderado, y crítico en dos puntos.
-  (1) Si clasifica como rutina una emergencia (gas, agua, electricidad), puede haber daño físico: **_crítico_**.
-  
-  (2) Si informa una deuda o un monto incorrecto, o promete una facilidad de pago inexistente, hay consecuencia económica y conflicto: **_alto_**. Una consulta mal respondida sobre horarios del SUM es tolerable. El riesgo es controlable si el LLM nunca decide: los montos salen siempre del sistema, las emergencias se detectan también con reglas deterministas (palabras clave) y escalan a una persona, y las facilidades de pago las aprueba un humano.
+### A.3 — Aplicación de los 4 criterios de viabilidad
 
-# Mapa inicial — Asistente de pre-atención de Administración Ombú
-**_Usuario_**: propietarios e inquilinos de las UF (escriben por WhatsApp o mail), encargados de edificio (reportan problemas) y el equipo administrativo de Ombú (recibe lo que el sistema escala).
+| Criterio | Pregunta | Respuesta aplicada a Administración Ombú |
+|---|---|---|
+| **Valor** | ¿Ahorra tiempo, dinero o reduce errores? | **Alto.** Son ~250 mensajes por día y cada uno lleva 3–5 minutos entre leer, clasificar, buscar datos y responder: unas **15–20 horas diarias** de trabajo administrativo. La demora típica es de 24–48 h, y los **reclamos urgentes** (pérdidas de agua, olor a gas, ascensor detenido) quedan enterrados entre consultas de rutina. Eso genera riesgo para los vecinos y conflictos con los consejos de propietarios. |
+| **Factibilidad** | ¿Se puede resolver hoy sin inventar tecnología? | **Viable.** Los LLM actuales extraen intenciones y entidades (unidad, rubro, urgencia) de mensajes informales en español rioplatense. El resto es software convencional: consultar el sistema de expensas, leer la planilla de reclamos, validar la unidad contra el padrón y aplicar reglas de prioridad. |
+| **Disponibilidad de datos** | ¿Hay información real sobre la que trabajar? | **Disponibles, pero desordenados.** Hay liquidaciones mensuales por consorcio (PDF/planilla), un registro de reclamos (planilla compartida), el padrón de UF con titulares, los **reglamentos de copropiedad** y las **actas de asamblea** (PDF, uno por edificio) y el listado de proveedores. Además, el historial de WhatsApp sirve para armar un lote de prueba realista. |
+| **Riesgo** | ¿Qué pasa si se equivoca? | **Moderado, y crítico en dos puntos.** (1) Si clasifica como rutina una **emergencia** (gas, agua, electricidad), puede haber daño físico: **crítico**. (2) Si **informa una deuda o un monto incorrecto**, o promete una facilidad de pago inexistente, hay consecuencia económica y conflicto: **alto**. Una consulta mal respondida sobre horarios del SUM es **tolerable**. El riesgo es controlable si el LLM **nunca decide**: los montos salen siempre del sistema, las emergencias se detectan también con reglas deterministas (palabras clave) y escalan a una persona, y las facilidades de pago las aprueba un humano. |
 
-**_Datos_**: mensajes en lenguaje natural (texto, a veces con fotos), padrón de unidades y titulares, liquidaciones mensuales de expensas, registro de reclamos, reglamentos de copropiedad, actas de asamblea y listado de proveedores.
+**Ubicación en la matriz Valor × Factibilidad:** alto valor y alta factibilidad → ⭐ **Prioridad**.
 
-**_Modelo_**: un LLM (por ejemplo Claude, GPT o Gemini) usado en dos momentos: interpretar el mensaje (intenciones, unidad, rubro, urgencia) y redactar la respuesta final a partir de datos ya validados.
+---
 
-**_Herramientas_**: identificar la UF en el padrón, consultar el saldo y la liquidación de la unidad, consultar el estado de un reclamo, registrar un reclamo nuevo, consultar la disponibilidad del SUM, buscar en reglamentos y actas, y escalar a un administrativo.
+### A.4 — Mapa inicial del sistema (seis piezas)
 
-**_Reglas_**: la unidad tiene que existir en el padrón y quien escribe tiene que estar vinculado a ella; los montos y saldos salen siempre del sistema y nunca del modelo; las emergencias (gas, agua, electricidad, ascensor con personas) escalan a un humano de inmediato; no se otorgan planes de pago ni descuentos; no se informa la deuda de una unidad a quien no es su titular; las reservas del SUM respetan el reglamento del edificio.
+## Mapa inicial — Asistente de pre-atención de Administración Ombú
 
-**_Salida_**: una respuesta en lenguaje natural con datos verificados (saldo, estado del reclamo, número de reclamo real), más la acción correspondiente: reclamo registrado, caso escalado o derivación a un administrativo.  
+- **Usuario:** propietarios e inquilinos de las UF (escriben por WhatsApp o mail), encargados de edificio (reportan problemas) y el equipo administrativo de Ombú (recibe lo que el sistema escala).
+- **Datos:** mensajes en lenguaje natural (texto, a veces con fotos), padrón de unidades y titulares, liquidaciones mensuales de expensas, registro de reclamos, reglamentos de copropiedad, actas de asamblea y listado de proveedores.
+- **Modelo:** un LLM (por ejemplo Claude, GPT o Gemini) usado en dos momentos: **interpretar** el mensaje (intenciones, unidad, rubro, urgencia) y **redactar** la respuesta final a partir de datos ya validados.
+- **Herramientas:** identificar la UF en el padrón, consultar el saldo y la liquidación de la unidad, consultar el estado de un reclamo, **registrar un reclamo nuevo**, consultar la disponibilidad del SUM, buscar en reglamentos y actas, y escalar a un administrativo.
+- **Reglas:** la unidad tiene que existir en el padrón y quien escribe tiene que estar vinculado a ella; los montos y saldos salen **siempre** del sistema y nunca del modelo; las emergencias (gas, agua, electricidad, ascensor con personas) escalan a un humano de inmediato; no se otorgan planes de pago ni descuentos; no se informa la deuda de una unidad a quien no es su titular; las reservas del SUM respetan el reglamento del edificio.
+- **Salida:** una respuesta en lenguaje natural con datos verificados (saldo, estado del reclamo, número de reclamo real), más la acción correspondiente: reclamo registrado, caso escalado o derivación a un administrativo.
+
+---
+
+### Ficha de oportunidad (resumen)
+
+| Campo | Contenido |
+|---|---|
+| **Problema** | ~250 mensajes por día sin estructura, con intenciones mezcladas, se atienden a mano con 24–48 h de demora y las urgencias se pierden entre consultas de rutina. |
+| **Usuario** | Propietarios, inquilinos y encargados (entrada); equipo administrativo de Ombú (beneficiario directo). |
+| **Proceso actual** | Leer → clasificar → identificar la unidad → buscar en el sistema de expensas o la planilla de reclamos → derivar → responder. Todo manual. |
+| **Intervención de IA** | Interpretar el mensaje y separar intenciones, extraer unidad, rubro y urgencia, y redactar la respuesta con datos reales. |
+| **Valor esperado** | Respuesta inmediata a consultas de solo lectura, detección temprana de emergencias y liberación de horas administrativas. |
+| **Riesgo principal** | Informar montos o condiciones de pago falsos, o no detectar una emergencia. Se mitiga con frontera regla/LLM y escalamiento humano. |
+
+---
