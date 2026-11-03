@@ -1,0 +1,14 @@
+# Credenciales — nunca al repo
+.env
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Sistema
+.DS_Store
