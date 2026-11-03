@@ -127,3 +127,29 @@ Respondé como lo haría el sistema.
 **Consecuencia de no resolverlo:** emergencias atendidas tarde, con riesgo físico y daños materiales que paga el consorcio; quejas ante los consejos de propietarios; y, en el extremo, que una asamblea decida **cambiar de administración**, lo que para Ombú significa perder ingresos.
 
 ---
+
+### B.2 — User journey
+
+Recorrido para el mensaje de ejemplo: *"Hola, soy del 4°B de Tipas 1450. Hace 3 días que no anda el ascensor y ya avisé. Además me vino la expensa de octubre re alta, ¿por qué? ¿La puedo pagar en dos cuotas sin recargo?"*
+
+```
+1. Recepción → 2. Identificar remitente → 3. Filtro de emergencia → 4. Interpretar mensaje
+→ 5. Validar interpretación → 6. Ejecutar acciones → 7. Redactar respuesta
+→ 8. Validar salida → 9. Enviar y registrar → Salida
+```
+
+| # | Paso | Tipo | Justificación |
+|---|---|---|---|
+| 1 | El vecino envía el mensaje por WhatsApp y el sistema lo recibe junto con el número de teléfono. | **[Regla]** | Es transporte: no hay nada que interpretar. |
+| 2 | Se busca el teléfono en el padrón y se obtienen las UF vinculadas y el rol (propietario o inquilino). | **[Regla]** | Es una búsqueda exacta en una tabla. Si el teléfono no está registrado, el sistema no muestra datos de ninguna unidad. |
+| 3 | Se buscan palabras clave de emergencia (*gas, inundación, humo, atrapado, chispas*…). Si aparece alguna, se escala de inmediato a la guardia. | **[Regla]** | La seguridad física no puede depender de un modelo probabilístico. Este filtro corre **antes** del LLM y funciona aunque el modelo falle. |
+| 4 | Se separan las intenciones del mensaje y se extraen los datos: unidad mencionada, rubro (ascensor), período (octubre) y pedido (dos cuotas). | **[LLM]** | El mensaje es lenguaje natural informal con tres intenciones mezcladas. Es exactamente lo que el código no puede hacer con reglas. |
+| 5 | Se valida la salida del modelo: las intenciones tienen que estar en el catálogo y la unidad mencionada tiene que coincidir con una de las UF del paso 2. Si algo es ambiguo, se le pide aclaración al vecino. | **[Regla]** | El modelo interpreta pero no tiene autoridad: lo que extrae se contrasta con los datos reales antes de usarlo. |
+| 6 | Se ejecuta cada intención: (a) buscar reclamos abiertos de ascensor en el edificio; (b) traer la liquidación de octubre y la de septiembre y calcular la diferencia por rubro; (c) registrar la solicitud de plan de pago y derivarla a un administrativo. | **[Regla]** | Son consultas, cálculos y registros contra el sistema de gestión. Los montos y estados salen de la base de datos, nunca del modelo. |
+| 7 | Se redacta una respuesta única en lenguaje natural con los datos obtenidos en el paso 6. | **[LLM]** | Hay que convertir datos estructurados en un mensaje claro y amable, que es una tarea de lenguaje. El modelo solo puede usar los datos que recibe. |
+| 8 | Se valida la respuesta antes de enviarla: los montos citados coinciden con los del sistema y no aparecen promesas de cuotas, descuentos ni fechas que no vengan del paso 6. | **[Regla]** | Es un control final contra alucinaciones en la redacción: si falla, se reintenta o se escala a una persona. |
+| 9 | Se envía la respuesta y se registra la interacción (intenciones, acciones y respuesta). | **[Regla]** | Trazabilidad, auditoría y material para evaluar el sistema. |
+
+El LLM interviene **solo en los pasos 4 y 7**, que son los dos momentos de lenguaje natural: interpretar y redactar. Todo lo demás es software determinista.
+
+---
