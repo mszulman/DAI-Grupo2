@@ -38,23 +38,19 @@ Respondé como lo haría el sistema.
 **Respuesta del modelo (copy-paste textual, sin editar):**
 
 > Hola, buenas tardes. Tomamos conocimiento de tu consulta para el departamento **4° "B" de Tipas 1450**. A continuación, te respondemos punto por punto:
-
-1. **Estado del ascensor:**
-Lamentamos mucho las molestias ocasionadas por la demora. Verificamos que el reclamo ya fue asentado y se encuentra derivado a la empresa conservadora asignada al edificio. En el transcurso del día nos contactaremos con el técnico de guardia para exigir prioridad de visita y te confirmaremos por esta vía el diagnóstico y la fecha estimada de reparación.
-2. **Liquidación de expensas de octubre:**
-El incremento en el valor final respecto al mes anterior suele deberse a dos factores principales:
-* **Gastos comunes extraordinarios o reparaciones:** si se realizaron trabajos de mantenimiento edilicio, abonos no habituales o service mayor de instalaciones.
-* **Incrementos en el rubro laboral:** impacto de acuerdos paritarios de SUTERH (encargados de edificio), bonificaciones y cargas sociales correspondientes al período.
-Podés verificar el detalle ítem por ítem en la liquidación adjunta, en las columnas de **Gastos Ordinarios** y **Extraordinarios**. Si tenés dudas sobre algún comprobante puntual, indicanos el número de concepto para detallártelo.
-
-
-3. **Pago en dos cuotas:**
-De acuerdo con el Reglamento de Propiedad Horizontal del consorcio y los plazos de rendición de cuentas, las expensas deben abonarse en término para afrontar las obligaciones mensuales del edificio (sueldos, servicios y seguros).
-* **Sin recargo:** Solo pueden ingresarse pagos parciales antes del primer vencimiento oficial estipulado en la liquidación.
-* **Con saldo pendiente posterior al vencimiento:** Cualquier remanente cancelado con posterioridad devenga el interés resarcitorio aprobado en asamblea de propietarios.
-Si estás ante una situación particular, podés solicitar formalmente que elevemos tu pedido de plan de pago al Consejo de Propietarios para evaluar si autorizan una excepción sin punitorios.
-
-Quedamos a disposición para cualquier consulta adicional sobre el consorcio.
+> 1. **Estado del ascensor:**
+> Lamentamos mucho las molestias ocasionadas por la demora. Verificamos que el reclamo ya fue asentado y se encuentra derivado a la empresa conservadora asignada al edificio. En el transcurso del día nos contactaremos con el técnico de guardia para exigir prioridad de visita y te confirmaremos por esta vía el diagnóstico y la fecha estimada de reparación.
+> 2. **Liquidación de expensas de octubre:**
+> El incremento en el valor final respecto al mes anterior suele deberse a dos factores principales:
+> * **Gastos comunes extraordinarios o reparaciones:** si se realizaron trabajos de mantenimiento edilicio, abonos no habituales o service mayor de instalaciones.
+> * **Incrementos en el rubro laboral:** impacto de acuerdos paritarios de SUTERH (encargados de edificio), bonificaciones y cargas sociales correspondientes al período.
+> Podés verificar el detalle ítem por ítem en la liquidación adjunta, en las columnas de **Gastos Ordinarios** y **Extraordinarios**. Si tenés dudas sobre algún comprobante puntual, indicanos el número de concepto para > detallártelo.
+> 3. **Pago en dos cuotas:**
+> De acuerdo con el Reglamento de Propiedad Horizontal del consorcio y los plazos de rendición de cuentas, las expensas deben abonarse en término para afrontar las obligaciones mensuales del edificio (sueldos, servicios y seguros).
+> * **Sin recargo:** Solo pueden ingresarse pagos parciales antes del primer vencimiento oficial estipulado en la liquidación.
+> * **Con saldo pendiente posterior al vencimiento:** Cualquier remanente cancelado con posterioridad devenga el interés resarcitorio aprobado en asamblea de propietarios.
+> Si estás ante una situación particular, podés solicitar formalmente que elevemos tu pedido de plan de pago al Consejo de Propietarios para evaluar si autorizan una excepción sin punitorios.
+> Quedamos a disposición para cualquier consulta adicional sobre el consorcio.
 
 **Partes inventadas.** Marcar en el texto de arriba cada dato inventado con **negrita** o ~~tachado~~ y completar la tabla:
 
