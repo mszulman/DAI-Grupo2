@@ -183,3 +183,7 @@ El LLM interviene **solo en los pasos 4 y 7**, que son los dos momentos de lengu
 `EMERGENCIA` · `SOLICITUD_PLAN_PAGO` · `NUEVO_RECLAMO` · `CONSULTA_EXPENSA` · `ESTADO_RECLAMO` · `CONSULTA_REGLAMENTO` · `OTRO`
 
 ---
+
+### B.5 — Hipótesis más riesgosa
+
+> **Suponemos que el número de teléfono desde el que escribe un vecino alcanza para identificar con confianza a qué unidad funcional pertenece y si está autorizado a ver sus datos; si el padrón de teléfonos está incompleto o desactualizado, el sistema no puede responder ninguna consulta de expensas ni registrar reclamos sin intervención humana.**
