@@ -20,6 +20,65 @@ Un solo mensaje trae **tres intenciones**: un reclamo con posible urgencia, una 
 
 ---
 
+### A.2 — Evidencia de la necesidad (réplica de "El Proveedor Enojado")
+
+**Modelo usado:** Gemini
+**Fecha de la prueba:** 27/10/2026
+
+**Prompt utilizado** (sin darle ninguna fuente de verdad):
+
+```
+Actuá como el sistema de atención de Administración Ombú, una administradora de consorcios de CABA.
+Un usuario pregunta: 'Hola, soy del 4°B de Tipas 1450. Hace 3 días que no anda el ascensor y ya
+avisé. Además me vino la expensa de octubre re alta, ¿por qué? ¿La puedo pagar en dos cuotas sin
+recargo?'
+Respondé como lo haría el sistema.
+```
+
+**Respuesta del modelo (copy-paste textual, sin editar):**
+
+> Hola, buenas tardes. Tomamos conocimiento de tu consulta para el departamento **4° "B" de Tipas 1450**. A continuación, te respondemos punto por punto:
+
+1. **Estado del ascensor:**
+Lamentamos mucho las molestias ocasionadas por la demora. Verificamos que el reclamo ya fue asentado y se encuentra derivado a la empresa conservadora asignada al edificio. En el transcurso del día nos contactaremos con el técnico de guardia para exigir prioridad de visita y te confirmaremos por esta vía el diagnóstico y la fecha estimada de reparación.
+2. **Liquidación de expensas de octubre:**
+El incremento en el valor final respecto al mes anterior suele deberse a dos factores principales:
+* **Gastos comunes extraordinarios o reparaciones:** si se realizaron trabajos de mantenimiento edilicio, abonos no habituales o service mayor de instalaciones.
+* **Incrementos en el rubro laboral:** impacto de acuerdos paritarios de SUTERH (encargados de edificio), bonificaciones y cargas sociales correspondientes al período.
+Podés verificar el detalle ítem por ítem en la liquidación adjunta, en las columnas de **Gastos Ordinarios** y **Extraordinarios**. Si tenés dudas sobre algún comprobante puntual, indicanos el número de concepto para detallártelo.
+
+
+3. **Pago en dos cuotas:**
+De acuerdo con el Reglamento de Propiedad Horizontal del consorcio y los plazos de rendición de cuentas, las expensas deben abonarse en término para afrontar las obligaciones mensuales del edificio (sueldos, servicios y seguros).
+* **Sin recargo:** Solo pueden ingresarse pagos parciales antes del primer vencimiento oficial estipulado en la liquidación.
+* **Con saldo pendiente posterior al vencimiento:** Cualquier remanente cancelado con posterioridad devenga el interés resarcitorio aprobado en asamblea de propietarios.
+Si estás ante una situación particular, podés solicitar formalmente que elevemos tu pedido de plan de pago al Consejo de Propietarios para evaluar si autorizan una excepción sin punitorios.
+
+Quedamos a disposición para cualquier consulta adicional sobre el consorcio.
+
+**Partes inventadas.** Marcar en el texto de arriba cada dato inventado con **negrita** o ~~tachado~~ y completar la tabla:
+
+| # | Fragmento inventado | Qué dato real haría falta | Nivel de confianza con que lo presentó |
+|---|---|---|---|
+| 1 | _ej.: "Su reclamo N° 4587 está en curso"_ | Registro real de reclamos del consorcio | _ej.: Alto — lo afirma sin condicionales_ |
+| 2 | _ej.: "El técnico irá el jueves"_ | Agenda del proveedor de ascensores | |
+| 3 | _ej.: "El aumento se debe a la paritaria del encargado"_ | Liquidación de octubre del consorcio | |
+| 4 | _ej.: "Sí, puede abonar en dos cuotas sin recargo"_ | Política de pagos / reglamento | |
+
+> Elementos que suelen aparecer inventados: número de reclamo, plazo de reparación, nombre del proveedor, motivo del aumento, monto de la expensa, política de cuotas, intereses por mora.
+
+**Qué le faltó al modelo para responder bien:**
+
+- **Padrón de unidades:** para saber qué UF es "el 4°B de Tipas 1450" y si quien escribe es propietario o inquilino.
+- **Registro de reclamos:** para saber si el reclamo del ascensor existe, en qué estado está y a qué proveedor se asignó.
+- **Liquidación de expensas de octubre:** para conocer los rubros y la comparación con el mes anterior, que es lo que explica el aumento.
+- **Reglamento y política de cobranza:** para saber si existen planes de pago y qué recargos aplican.
+- **Herramientas:** el modelo no puede consultar ni registrar nada. Solo genera texto.
+
+**Conclusión:** _[completar después de la prueba, p. ej.:]_ El modelo no falló por ser malo. Falló porque no tiene acceso a los datos reales del consorcio, y completó el vacío con información plausible presentada con total seguridad. En nuestro dominio, eso significa informar montos, plazos o facilidades de pago que no existen.
+
+---
+
 # A.3 — Aplicación de los 4 criterios de viabilidad
 ## Valor:	¿Ahorra tiempo, dinero o reduce errores?
   **_Alto_**. Son ~250 mensajes por día y cada uno lleva 3–5 minutos entre leer, clasificar, buscar datos y responder: unas 15–20 horas diarias de trabajo administrativo. La demora típica es de 24–48 h, y los reclamos urgentes (pérdidas de agua, olor a gas, ascensor detenido) quedan enterrados entre consultas de rutina. Eso genera riesgo para los vecinos y conflictos con los consejos de propietarios.
