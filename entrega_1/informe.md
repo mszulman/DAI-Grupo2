@@ -153,3 +153,13 @@ Recorrido para el mensaje de ejemplo: *"Hola, soy del 4°B de Tipas 1450. Hace 3
 El LLM interviene **solo en los pasos 4 y 7**, que son los dos momentos de lenguaje natural: interpretar y redactar. Todo lo demás es software determinista.
 
 ---
+
+### B.3 — Alcance del MVP
+
+| Sección | Contenido |
+|---|---|
+| **Capacidades incluidas** | • Identificar al vecino y sus UF a partir del teléfono.<br>• Detectar emergencias por reglas y escalarlas a la guardia.<br>• Interpretar mensajes con **varias intenciones** y extraer unidad, rubro y período.<br>• Consultar el saldo y **explicar la variación de la expensa** comparando rubros con el mes anterior (solo lectura).<br>• Consultar el estado de un reclamo existente.<br>• **Registrar un reclamo nuevo** de mantenimiento, con control de duplicados en el mismo edificio y rubro.<br>• Responder preguntas sobre el reglamento del edificio (horarios del SUM, mudanzas, mascotas).<br>• Derivar a un administrativo todo lo que esté fuera de alcance. |
+| **Explícitamente fuera de alcance** | • **Aprobar** planes de pago, descuentos o condonación de intereses (solo se registra la solicitud y se deriva).<br>• Generar links de pago o registrar pagos.<br>• Reservar el SUM (en el MVP solo se informa la disponibilidad).<br>• Contratar o asignar proveedores (el reclamo queda registrado y lo asigna un administrativo).<br>• Mediar en conflictos entre vecinos.<br>• Procesar audios e imágenes.<br>• Atender por mail (el MVP cubre solo WhatsApp). |
+| **Criterios de éxito** | • **Principal:** sobre un lote de 50 mensajes reales anonimizados, el sistema responde **correctamente y sin intervención humana al menos el 80%** de las consultas de solo lectura.<br>• **Seguridad:** el **100% de las emergencias** del lote se escalan (cero falsos negativos).<br>• **Fidelidad:** **0 montos inventados**; todo monto en una respuesta coincide con el del sistema. |
+
+---
