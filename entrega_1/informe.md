@@ -164,3 +164,22 @@ El LLM interviene **solo en los pasos 4 y 7**, que son los dos momentos de lengu
 | **Criterios de éxito** | • **Principal:** sobre un lote de 50 mensajes reales anonimizados, el sistema responde **correctamente y sin intervención humana al menos el 80%** de las consultas de solo lectura.<br>• **Seguridad:** el **100% de las emergencias** del lote se escalan (cero falsos negativos).<br>• **Fidelidad:** **0 montos inventados**; todo monto en una respuesta coincide con el del sistema. |
 
 ---
+
+### B.4 — Matriz de Mapeo de Intenciones
+
+| Entrada del usuario (caos) | Intención (LLM) | Acción de backend (determinista) | Riesgo | Justificación del riesgo |
+|---|---|---|---|---|
+| *"Hay olor a gas en el palier del 3er piso, ¿qué hago?"* | `EMERGENCIA` | Disparar el protocolo de guardia: avisar al administrativo de turno y al proveedor de emergencias, y enviar una **respuesta fija predefinida** con instrucciones de seguridad (sin redacción del LLM). | **ALTO** | Hay riesgo físico para las personas. Un falso negativo (clasificarlo como consulta) es **crítico**. Por eso el filtro de palabras clave del paso 3 corre antes que el LLM y la respuesta no es generada. |
+| *"¿Puedo pagar la expensa de octubre en dos cuotas sin recargo? Me lo dijo el del consejo."* | `SOLICITUD_PLAN_PAGO` | Registrar la solicitud asociada a la UF y derivarla a administración. Responder que la solicitud fue recibida y está en evaluación. **Nunca** se confirma ni se rechaza el plan. | **ALTO** | Tiene **consecuencia financiera** y **escribe** un registro. Si el modelo "cede" ante un mensaje asertivo (*"me lo dijo el del consejo"*) y confirma el plan, la administradora queda comprometida con una condición que no existe. La decisión es siempre humana. |
+| *"Se está filtrando agua del techo del baño, viene del de arriba."* | `NUEVO_RECLAMO` | Validar la UF, buscar reclamos abiertos del mismo edificio y rubro para no duplicar, **registrar el reclamo** con prioridad calculada por reglas (rubro + palabras clave) y devolver el número de reclamo real. | **MEDIO** | **Escribe** en el registro de reclamos, pero la operación es reversible y no compromete dinero en forma directa, porque el proveedor lo asigna una persona. Un error de prioridad puede demorar una reparación. |
+| *"¿Por qué me vino tan alta la expensa este mes?"* | `CONSULTA_EXPENSA` | Traer la liquidación del período y la del anterior, calcular la diferencia por rubro (sueldos, mantenimiento, extraordinarias) y pasar el resultado al redactor. | **BAJO** | **Solo lee.** Los montos salen del sistema. El único control extra es de privacidad: solo se informa la expensa a quien está vinculado a esa UF. |
+| *"¿Qué pasó con lo del ascensor que avisé el lunes?"* | `ESTADO_RECLAMO` | Buscar reclamos de la UF o del edificio por rubro y fecha y devolver el estado y el número de reclamo. | **BAJO** | **Solo lee.** Si no encuentra el reclamo, lo dice y ofrece registrarlo; no inventa un estado. |
+| *"¿Se puede usar la terraza para un cumple el sábado?"* | `CONSULTA_REGLAMENTO` | Buscar en el reglamento de copropiedad del edificio (RAG en la Entrega 3) y responder citando el artículo. | **BAJO** | **Solo lee** documentación. Una respuesta errónea es molesta pero tolerable, y se mitiga citando la fuente. |
+| *"Necesito hablar con alguien, esto es un desastre."* | `OTRO` | Derivar a un administrativo con el mensaje original. | **BAJO** | No ejecuta ninguna acción automática: el sistema solo deriva. |
+
+> **Nota de diseño:** un mismo mensaje puede traer varias intenciones (el ejemplo del ascensor trae `ESTADO_RECLAMO`, `CONSULTA_EXPENSA` y `SOLICITUD_PLAN_PAGO`). El LLM devuelve una **lista** de intenciones y el backend ejecuta cada una por separado.
+
+**Catálogo cerrado de intenciones** (contrato para el `enum` del JSON de la Entrega 2):
+`EMERGENCIA` · `SOLICITUD_PLAN_PAGO` · `NUEVO_RECLAMO` · `CONSULTA_EXPENSA` · `ESTADO_RECLAMO` · `CONSULTA_REGLAMENTO` · `OTRO`
+
+---
