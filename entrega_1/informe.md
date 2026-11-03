@@ -111,3 +111,19 @@ Respondé como lo haría el sistema.
 | **Riesgo principal** | Informar montos o condiciones de pago falsos, o no detectar una emergencia. Se mitiga con frontera regla/LLM y escalamiento humano. |
 
 ---
+
+## Parte B — Concepto de Solución (Clase 2)
+
+### B.1 — Señal de dolor
+
+**Señal principal: volumen repetitivo + latencia humana.**
+
+- **Volumen repetitivo.** De los ~250 mensajes diarios, estimamos que **~60% son consultas de solo lectura** que se responden siempre buscando el mismo tipo de dato: saldo o detalle de la expensa, estado de un reclamo, horarios del SUM, reglas del edificio. En la semana de vencimiento de expensas (días 1 a 10 de cada mes) el volumen **casi se duplica**.
+- **Latencia humana.** Con tres administrativos, la respuesta tarda **24–48 h**. El caso más grave son las **emergencias** (olor a gas, pérdidas de agua, ascensor con personas): llegan por el mismo canal que una consulta de horarios y pueden quedar horas sin leer.
+- **Carga cognitiva (secundaria).** Muchos mensajes mezclan varias intenciones y nombran la unidad de manera informal ("el 4°B de Tipas"). Para cada uno, el administrativo tiene que identificar la UF y revisar dos o tres sistemas.
+
+**Quién lo sufre:** los vecinos, que esperan respuesta y repiten el mensaje (lo que genera reclamos duplicados), y el equipo administrativo, que pasa la mayor parte de la jornada atendiendo consultas en lugar de gestionar.
+
+**Consecuencia de no resolverlo:** emergencias atendidas tarde, con riesgo físico y daños materiales que paga el consorcio; quejas ante los consejos de propietarios; y, en el extremo, que una asamblea decida **cambiar de administración**, lo que para Ombú significa perder ingresos.
+
+---
