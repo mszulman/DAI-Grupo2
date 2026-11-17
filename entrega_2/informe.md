@@ -18,5 +18,3 @@ Elegimos **few-shot** con cinco ejemplos, uno por cada intención salvo `EMERGEN
 3. **La normalización de la unidad es informal.** Los vecinos escriben "4°B", "PB A", "planta baja A" o "el 2 C". Los ejemplos "2°C" → `"2C"` y "PB A de Tipas" → `"PBA"` fijan el formato que después valida el contrato.
 
 Además, cada ejemplo funciona como **test de regresión**: si una versión futura del prompt hace fallar uno de ellos, el cambio rompió algo.
-
-**Evidencia (comparación con zero-shot):** para no justificar la técnica con una falla que nunca probamos, armamos también una versión **v0 zero-shot** ([prompts/extraccion_v0.txt](prompts/extraccion_v0.txt)). Es el mismo prompt, palabra por palabra, sin la sección de ejemplos. Corremos el lote de la Parte C con las dos versiones y comparamos.
