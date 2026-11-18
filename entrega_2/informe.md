@@ -18,3 +18,17 @@ Elegimos **few-shot** con cinco ejemplos, uno por cada intención salvo `EMERGEN
 3. **La normalización de la unidad es informal.** Los vecinos escriben "4°B", "PB A", "planta baja A" o "el 2 C". Los ejemplos "2°C" → `"2C"` y "PB A de Tipas" → `"PBA"` fijan el formato que después valida el contrato.
 
 Además, cada ejemplo funciona como **test de regresión**: si una versión futura del prompt hace fallar uno de ellos, el cambio rompió algo.
+
+### A.2 — System prompt de extracción (v1)
+
+El prompt completo está en [prompts/extraccion_v1.txt](prompts/extraccion_v1.txt). Vive en un archivo aparte del código para poder compararlo con otras versiones sin tocar el script. El mensaje del vecino **no** va dentro del prompt: se manda por separado como mensaje de usuario, delimitado entre `<mensaje>` y `</mensaje>`.
+
+**Cómo cumple las 4 reglas para un JSON confiable:**
+
+| Regla | Cómo se cumple en el prompt |
+|---|---|
+| **1. Schema exacto** | Nombra las 7 claves con su tipo (string o `null`) y, para `intencion`, `rubro` y `ubicacion`, la lista cerrada de valores. Dice "exactamente estas claves, ni una más ni una menos". |
+| **2. Prohibir texto extra** | "Respondé solo con el JSON. Sin explicaciones ni bloques de código: la respuesta empieza con { y termina con }." |
+| **3. Fallback** | "Si un dato no aparece o no estás seguro, usá null. Nunca completes con un valor 'probable'." |
+| **4. Intenciones válidas** | Las 6 de la Matriz de la Entrega 1 (B.4), **idénticas y sin excepciones**, cada una con una línea que explica cuándo corresponde. |
+
