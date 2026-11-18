@@ -37,3 +37,35 @@ El prompt completo está en [prompts/extraccion_v1.txt](prompts/extraccion_v1.tx
 - **`SOLICITUD_REINTEGRO` se clasifica igual "aunque diga que ya se lo aprobaron".** Así, un intento de manipulación termina en la intención de riesgo ALTO, que siempre deriva a una persona, y no en una aprobación.
 - **No decidir nada.** El modelo no aprueba reintegros, no asigna prioridad y no confirma visitas. Es la regla de oro de la Entrega 1: la IA interpreta y la base de datos es la autoridad. La prioridad se calcula con reglas en el paso 7.
 - **El número de reclamo, solo los dígitos.** Así el código lo busca en la base sin tener que limpiar "N°" o "#".
+
+**Trazabilidad con la Entrega 1:**
+
+| Elemento del prompt | De dónde sale |
+|---|---|
+| Valores de `intencion` | Matriz de Intenciones (B.4), idénticos |
+| Orden de prioridad entre intenciones | Nota de diseño de la B.4 y límite del MVP (B.3): una sola intención por mensaje |
+| `edificio_mencionado`, `unidad_mencionada` | Paso 5 del journey (B.2): la unidad mencionada se contrasta con las UF vinculadas al teléfono |
+| `rubro` | Paso 6 del journey: la búsqueda de duplicados es por edificio y rubro |
+| `ubicacion` | Paso 7 y A.4: la prioridad se calcula con rubro y ubicación (un problema en un espacio común afecta a todo el edificio) |
+| `descripcion_problema` | Acción de `NUEVO_RECLAMO` y `AMPLIAR_RECLAMO`: lo que se guarda en el registro |
+| `numero_reclamo_mencionado` | Acción de `AMPLIAR_RECLAMO` y `ESTADO_RECLAMO`: buscar el reclamo citado |
+
+**Versión:** v1 (few-shot, 5 ejemplos). Versión de comparación: v0 (zero-shot).
+
+---
+
+## Parte B — Script con API real
+
+> _Pendiente._
+
+### B.1 — Script funcional
+### B.2 — Contrato del prototipo
+
+---
+
+## Parte C — Lote de prueba
+
+> _Pendiente._
+
+### C.1 — Resultados
+### C.2 — Reflexión
