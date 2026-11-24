@@ -18,6 +18,19 @@ REINTENTOS = 3
 CODIGOS_REINTENTABLES = (429, 503)  # 429: límite de uso · 503: servidor saturado
 
 
+MODELOS_POR_DEFECTO = {
+    "gemini": ("GEMINI_MODEL", "gemini-3.5-flash"),
+    "openai": ("OPENAI_MODEL", "gpt-4o-mini"),
+    "groq": ("GROQ_MODEL", "llama-3.3-70b-versatile"),
+}
+
+
+def modelo_configurado(proveedor: str) -> str:
+    """Nombre del modelo que se va a usar con ese proveedor (variable de entorno o default)."""
+    variable, default = MODELOS_POR_DEFECTO[proveedor]
+    return os.getenv(variable, default)
+
+
 def _post_json(url: str, payload: dict, headers: dict) -> dict:
     """Request HTTP POST: manda un JSON y devuelve el JSON de la respuesta."""
     req = urllib.request.Request(
@@ -30,7 +43,7 @@ def _post_json(url: str, payload: dict, headers: dict) -> dict:
 
 
 def _llamar_gemini(system: str, usuario: str, api_key: str) -> str:
-    modelo = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+    modelo = modelo_configurado("gemini")
     url = f"https://generativelanguage.googleapis.com/v1beta/models/{modelo}:generateContent"
     payload = {
         "systemInstruction": {"parts": [{"text": system}]},
@@ -64,13 +77,13 @@ def llamar_modelo(system: str, usuario: str, proveedor: str, api_key: str) -> st
         return _llamar_chat_completions(
             system, usuario, api_key,
             "https://api.openai.com/v1/chat/completions",
-            os.getenv("OPENAI_MODEL", "gpt-4o-mini"),
+            modelo_configurado("openai"),
         )
     if proveedor == "groq":
         return _llamar_chat_completions(
             system, usuario, api_key,
             "https://api.groq.com/openai/v1/chat/completions",
-            os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile"),
+            modelo_configurado("groq"),
         )
     raise ValueError(f"Proveedor desconocido: {proveedor}")
 
