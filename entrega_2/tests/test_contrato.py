@@ -123,3 +123,22 @@ def test_fuera_de_alcance_no_necesita_unidad():
 def test_entrada_basura_no_rompe_el_programa(mensaje):
     r = procesar_mensaje(mensaje, TEL_UNA_UF)
     assert r["ok"] is False and r["error"] == "REGLA"
+
+
+# ── Errores de comunicación ──────────────────────────────────────────────────
+
+def test_http_404_informa_comunicacion_con_pista(monkeypatch):
+    import io
+    import urllib.error
+    from ombu import extractor
+
+    def falla(*args, **kwargs):
+        cuerpo = b'{"error": {"message": "models/gemini-x is not found for API version v1beta"}}'
+        raise urllib.error.HTTPError("https://api", 404, "Not Found", {}, io.BytesIO(cuerpo))
+
+    monkeypatch.setattr(extractor, "detectar_proveedor", lambda: ("gemini", "clave-de-prueba"))
+    monkeypatch.setattr(extractor, "llamar_con_reintentos", falla)
+    r = procesar_mensaje("No anda el ascensor", TEL_UNA_UF)
+    assert r["error"] == "COMUNICACION"
+    assert "404" in r["detalle"] and "listar_modelos" in r["detalle"]
+    assert "clave-de-prueba" not in r["detalle"]          # la key nunca aparece en el error
