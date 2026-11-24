@@ -187,3 +187,84 @@ El LLM interviene **solo en los pasos 4 y 7**, que son los dos momentos de lengu
 ### B.5 — Hipótesis más riesgosa
 
 > **Suponemos que el número de teléfono desde el que escribe un vecino alcanza para identificar con confianza a qué unidad funcional pertenece y si está autorizado a ver sus datos; si el padrón de teléfonos está incompleto o desactualizado, el sistema no puede responder ninguna consulta de expensas ni registrar reclamos sin intervención humana.**
+
+---
+
+## Adenda — Cambio de alcance (vigente desde la Entrega 2)
+
+> Agregada el 17/11/2026. **Las Partes A y B de arriba quedan como se entregaron** (incluida la evidencia real de la A.2). A partir de la Entrega 2 acotamos el sistema a **un solo subsistema: los reclamos por reparaciones**. Esta adenda reemplaza a la B.2, B.3, B.4 y B.5 para las entregas siguientes; el prompt y el contrato de la Entrega 2 usan **el catálogo de intenciones de esta adenda**.
+
+**Por qué acotamos:** el diseño original cubría reclamos, expensas, reglamento y reservas con 7 intenciones y una lista de intenciones por mensaje. Para un prototipo era demasiada superficie. Los reclamos por reparaciones (~90 de los ~250 mensajes diarios) concentran los dos riesgos más serios del caso (emergencias físicas y compromisos de pago por reintegros o daños) y el dolor más visible (duplicados: un ascensor parado genera 10–15 mensajes). Expensas, reglamento y reservas pasan a `FUERA_DE_ALCANCE` y se derivan.
+
+**Qué cambia respecto de la Parte B original:**
+
+| | Diseño original (Parte B) | Desde la Entrega 2 (esta adenda) |
+|---|---|---|
+| Alcance | Pre-atención de todos los mensajes | Solo reclamos por reparaciones |
+| Intenciones | 7: `EMERGENCIA`, `SOLICITUD_PLAN_PAGO`, `NUEVO_RECLAMO`, `CONSULTA_EXPENSA`, `ESTADO_RECLAMO`, `CONSULTA_REGLAMENTO`, `OTRO` | 6: `EMERGENCIA`, `SOLICITUD_REINTEGRO`, `NUEVO_RECLAMO`, `AMPLIAR_RECLAMO`, `ESTADO_RECLAMO`, `FUERA_DE_ALCANCE` |
+| Intenciones por mensaje | Lista (varias) | **Una**, elegida por orden de riesgo |
+| Riesgo ALTO | Emergencia, plan de pago | Emergencia, reintegro o daño |
+| Pasos del journey | 9 | 11, con búsqueda de duplicados y un paso [Humano] |
+
+**Sobre la A.2:** la evidencia se corrió sobre el alcance original. La parte del ascensor sigue siendo evidencia válida para este subsistema: el modelo afirmó que *"el reclamo ya fue asentado y se encuentra derivado a la empresa conservadora"* sin tener acceso a ningún registro de reclamos.
+
+### B.2 (v2) — User journey
+
+Recorrido para un mensaje como: *"Hola, soy del 4°B de Tipas 1450. Hace 3 días que no anda el ascensor y ya avisé, ¿cuándo viene el técnico? Además se me está filtrando agua del techo del baño y quiero que el consorcio me pague el arreglo."*
+
+```
+1. Recepción → 2. Identificar remitente → 3. Filtro de emergencia → 4. Interpretar mensaje
+→ 5. Validar interpretación → 6. Buscar reclamos abiertos → 7. Ejecutar la acción
+→ 8. Decisión humana (si corresponde) → 9. Redactar respuesta → 10. Validar salida
+→ 11. Enviar y registrar → Salida
+```
+
+| # | Paso | Tipo | Justificación |
+|---|---|---|---|
+| 1 | El vecino envía el mensaje por WhatsApp y el sistema lo recibe junto con el número de teléfono. | **[Regla]** | Es transporte: no hay nada que interpretar. |
+| 2 | Se busca el teléfono en el padrón y se obtienen las UF vinculadas y el rol (propietario, inquilino, encargado). | **[Regla]** | Es una búsqueda exacta en una tabla. Si el teléfono no está, el reclamo se deriva a una persona. |
+| 3 | Se buscan palabras clave de emergencia (*olor a gas, inundación, humo, atrapado, chispas*…). Si aparece alguna, se escala de inmediato a la guardia con una respuesta fija. | **[Regla]** | La seguridad física no puede depender de un modelo probabilístico. Este filtro corre **antes** del LLM y funciona aunque el modelo falle. |
+| 4 | Se interpreta el mensaje: intención, edificio y unidad mencionados, rubro, ubicación (unidad o espacio común), descripción breve del problema y número de reclamo si lo cita. | **[LLM]** | Es lenguaje natural informal ("se llueve el techo", "el de arriba me inunda"). Ninguna regla fija cubre todas las formas de describir un problema. |
+| 5 | Se valida la salida del modelo: tiene que cumplir el contrato (intención del catálogo, rubro válido) y la unidad mencionada tiene que estar vinculada al teléfono del paso 2. | **[Regla]** | El modelo interpreta pero no tiene autoridad: lo que extrae se contrasta con los datos reales antes de usarlo. |
+| 6 | Se buscan reclamos abiertos del mismo edificio y rubro (o el número de reclamo citado). | **[Regla]** | Es una consulta a la base de datos, que es la autoridad. Evita registrar 15 veces el mismo ascensor detenido. |
+| 7 | Se ejecuta la acción de la intención: registrar el reclamo con prioridad calculada por reglas, sumar el aviso a un reclamo existente, agregar información o informar el estado. | **[Regla]** | Son escrituras y lecturas contra el registro de reclamos. El número de reclamo y el estado salen de la base, nunca del modelo. |
+| 8 | Reintegros, daños y asignación de proveedor: los decide un administrativo. | **[Humano]** | Tienen consecuencia económica y, en el caso de los daños, requieren evaluar responsabilidades según el reglamento. El sistema prepara el caso y la persona decide. |
+| 9 | Se redacta la respuesta en lenguaje natural con los datos del paso 7. | **[LLM]** | Hay que convertir datos estructurados (`reclamo 3021, ascensor, en curso, unido a reclamo existente`) en un mensaje claro y cordial. **Comunica el resultado, no lo cambia.** |
+| 10 | Se valida la respuesta antes de enviarla: el número de reclamo citado existe y no aparecen fechas de visita, montos ni promesas de pago que no vengan del paso 7. | **[Regla]** | Es un control final contra alucinaciones en la redacción: si falla, se reintenta o se escala a una persona. |
+| 11 | Se envía la respuesta y se registra la interacción. | **[Regla]** | Trazabilidad, auditoría y material para evaluar el sistema. |
+
+El LLM interviene **solo en los pasos 4 y 9**, que son los dos momentos de lenguaje natural: interpretar y redactar. El paso 8 lo hace una persona. Todo lo demás es software determinista.
+
+---
+
+### B.3 (v2) — Alcance del MVP
+
+| Sección | Contenido |
+|---|---|
+| **Capacidades incluidas** | • Identificar al vecino y sus UF a partir del teléfono.<br>• Detectar emergencias por reglas y escalarlas a la guardia.<br>• Clasificar el mensaje en una de las 6 intenciones del catálogo y extraer unidad, rubro, ubicación y descripción.<br>• **Registrar un reclamo nuevo**, con control de duplicados (mismo edificio, rubro y reclamo abierto) y prioridad calculada por reglas.<br>• **Sumar información** a un reclamo abierto.<br>• Informar el estado real de un reclamo.<br>• Registrar los pedidos de reintegro o daños y **derivarlos** a un administrativo.<br>• Derivar todo lo que esté fuera de alcance. |
+| **Explícitamente fuera de alcance** | • Consultas de expensas, reglamento, reservas del SUM y trámites administrativos (se derivan).<br>• **Aprobar** reintegros o aceptar responsabilidad por daños.<br>• Asignar proveedores o agendar visitas (lo hace un administrativo).<br>• **Una sola intención por mensaje:** si un mensaje trae dos pedidos, se toma el de mayor riesgo y el resto queda para la respuesta o la revisión humana.<br>• Procesar fotos y audios.<br>• Atender por mail (el MVP cubre solo WhatsApp). |
+| **Criterios de éxito** | • **Principal:** sobre un lote de 40 mensajes reales anonimizados, el sistema clasifica correctamente la intención y el rubro en **al menos el 90%** de los casos.<br>• **Seguridad:** el **100% de las emergencias** del lote se escalan (cero falsos negativos).<br>• **Duplicados:** menos del **5%** de los reclamos registrados son duplicados de uno abierto. |
+
+---
+
+### B.4 (v2) — Matriz de Mapeo de Intenciones
+
+| Entrada del usuario (caos) | Intención (LLM) | Acción de backend (determinista) | Riesgo | Justificación del riesgo |
+|---|---|---|---|---|
+| *"Hay olor a gas en el palier del 3er piso, ¿qué hago?"* | `EMERGENCIA` | Disparar el protocolo de guardia: avisar al administrativo de turno y al proveedor de urgencias, y enviar una **respuesta fija predefinida** con instrucciones de seguridad (sin redacción del LLM). | **ALTO** | Hay riesgo físico para las personas y la acción **genera un gasto** (visita de urgencia). Un falso negativo es **crítico**. Por eso el filtro de palabras clave corre antes del LLM y la respuesta no es generada. |
+| *"Tuve que llamar yo al plomero porque se tapó la bajada común, me salió $80.000. Me lo descuentan de las expensas, ¿no? Me dijo el del consejo que sí."* | `SOLICITUD_REINTEGRO` | **Registrar** el pedido asociado a la UF y al reclamo, si existe, y derivarlo a administración. Responder que el pedido fue recibido y está en evaluación. **Nunca** se confirma ni se rechaza. | **ALTO** | Tiene **consecuencia financiera** y **escribe** un registro. Si el modelo "cede" ante un mensaje asertivo (*"me dijo el del consejo"*) y confirma el reintegro, la administradora queda comprometida con un pago que no autorizó. Lo mismo vale para los daños ("la filtración me arruinó el techo, que lo pague el consorcio"). |
+| *"Se está filtrando agua del techo del baño, viene del de arriba."* | `NUEVO_RECLAMO` | Validar la UF, buscar reclamos abiertos del mismo edificio y rubro; si hay uno, **sumar el aviso** a ese reclamo; si no, **registrar** uno nuevo con prioridad por reglas y devolver el número de reclamo real. | **MEDIO** | **Escribe** en el registro de reclamos, pero la operación es reversible y no compromete dinero en forma directa: el proveedor lo asigna una persona. Un error de rubro o de prioridad puede demorar una reparación. |
+| *"Por el reclamo 3021: ahora también gotea en la cocina, no solo en el baño."* | `AMPLIAR_RECLAMO` | Buscar el reclamo citado y verificar que pertenezca a la UF o al edificio del remitente; agregar la información nueva al historial del reclamo. | **MEDIO** | **Escribe**, pero solo agrega información a un reclamo existente. El error posible es asociarla a un reclamo equivocado; se mitiga verificando que el reclamo sea de la UF o del edificio del remitente. |
+| *"¿Qué pasó con lo del ascensor que avisé el lunes?"* | `ESTADO_RECLAMO` | Buscar reclamos de la UF o del edificio por rubro y fecha, y devolver el estado y el número de reclamo. | **BAJO** | **Solo lee.** Si no encuentra el reclamo, lo dice y ofrece registrarlo; no inventa un estado. |
+| *"¿Cuánto tengo que pagar de expensas este mes?"* | `FUERA_DE_ALCANCE` | Respuesta fija que deriva al canal administrativo. No se procesa. | **BAJO** | No lee ni escribe nada del subsistema de reclamos. El único costo es que el vecino tenga que esperar la respuesta de una persona. |
+
+> **Nota de diseño:** el MVP toma **una sola intención por mensaje**. Si un mensaje trae dos pedidos (como el ejemplo de la A.1), el prompt indica elegir el de mayor riesgo, en este orden: `EMERGENCIA` > `SOLICITUD_REINTEGRO` > `NUEVO_RECLAMO` > `AMPLIAR_RECLAMO` > `ESTADO_RECLAMO` > `FUERA_DE_ALCANCE`. Así, el error posible va siempre en la dirección segura.
+
+**Catálogo cerrado de intenciones** (contrato para el campo `intencion` del JSON de la Entrega 2):
+`EMERGENCIA` · `SOLICITUD_REINTEGRO` · `NUEVO_RECLAMO` · `AMPLIAR_RECLAMO` · `ESTADO_RECLAMO` · `FUERA_DE_ALCANCE`
+
+---
+
+### B.5 (v2) — Hipótesis más riesgosa
+
+> **Suponemos que el número de teléfono desde el que escribe un vecino alcanza para identificar con confianza a qué unidad funcional pertenece; si el padrón de teléfonos está incompleto o desactualizado, el sistema no puede registrar reclamos ni detectar duplicados sin intervención humana.**
