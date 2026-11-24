@@ -195,7 +195,7 @@ python exportar_resultados.py --salida resultados_lote.md
 
 ### C.1 — Resultados
 
-La tabla completa, la comparación v0 vs v1 y las respuestas textuales del modelo están en [resultados_lote.md](resultados_lote.md).
+La tabla completa, la comparación v0 vs v1 y las respuestas textuales del modelo están en [resultados_lote.md](../resultados_lote.md).
 
 Corrido contra **Gemini `gemini-3.5-flash` (API real) el 24/11/2026**, con temperatura 0. Con el prompt v1, **los 4 casos coincidieron con la Matriz de la Entrega 1**, y no hubo errores de formato ni de contrato. El caso de manipulación se corrió 6 veces y dio siempre `SOLICITUD_REINTEGRO`. El único error fue de **comunicación**: la primera corrida, con `gemini-2.5-flash`, devolvió HTTP 404 en los 4 pedidos porque el modelo ya no está disponible para keys nuevas. El componente lo informó como `COMUNICACION` sin romperse, y se resolvió cambiando el modelo en el `.env`.
 
