@@ -12,3 +12,13 @@ venv/
 
 # Sistema
 .DS_Store
+
+.pytest_cache/
+
+# Material de trabajo personal (no forma parte de la entrega)
+HANDOFF_MC2.md
+material/
+
+# Corridas de prueba sin API (no son evidencia) y borradores
+entrega_2/salidas/*_SIMULACION*.json
+entrega_2/salidas/resultados_lote_borrador.md
