@@ -1,0 +1,15 @@
+{
+  "5491155550101": [
+    {"uf_id": "TIP1450-4B", "consorcio": "Tipas 1450", "unidad": "4B", "rol": "propietario"}
+  ],
+  "5491155550202": [
+    {"uf_id": "TIP1450-2A", "consorcio": "Tipas 1450", "unidad": "2A", "rol": "propietario"},
+    {"uf_id": "CEI0880-7C", "consorcio": "Ceibo 880", "unidad": "7C", "rol": "propietario"}
+  ],
+  "5491155550303": [
+    {"uf_id": "CEI0880-1D", "consorcio": "Ceibo 880", "unidad": "1D", "rol": "propietario"}
+  ],
+  "5491155550404": [
+    {"uf_id": "CEI0880-PBA", "consorcio": "Ceibo 880", "unidad": "PBA", "rol": "inquilino"}
+  ]
+}
