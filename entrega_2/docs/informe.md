@@ -23,9 +23,9 @@ Además, cada ejemplo funciona como **test de regresión**: si una versión futu
 
 **Evidencia (comparación con zero-shot):** para no justificar la técnica con una falla que nunca probamos, armamos también una versión **v0 zero-shot** ([prompts/extraccion_v0.txt](prompts/extraccion_v0.txt)). Es el mismo prompt, palabra por palabra, sin la sección de ejemplos. Corremos el lote de la Parte C con las dos versiones y comparamos.
 
-> _[Completar después de correr el lote con v0 y v1. Ejemplos de redacción:]_
-> - _"El caso X fallaba con zero-shot (clasificó el pedido de reintegro como `NUEVO_RECLAMO`); con few-shot pasó."_
-> - _"En los 4 casos, zero-shot no falló. Mantenemos few-shot por las fronteras descriptas arriba, que este lote no pone del todo a prueba; queda como mejora ampliar el lote en la Entrega 3."_
+**Resultado (`gemini-3.5-flash`, ver [resultados_lote.md](resultados_lote.md)): en los 4 casos del lote, zero-shot no falló.** Clasificó igual que few-shot y extrajo los mismos campos. La única diferencia observable fue de forma: con v1 todas las respuestas vinieron en una línea, como los ejemplos, y la `descripcion_problema` se reformuló en el mismo estilo; con v0, 3 de 4 vinieron con sangría y copiando las palabras del vecino.
+
+Por lo tanto, **la elección de few-shot no se apoya en una falla observada**, sino en las fronteras descriptas arriba (`AMPLIAR_RECLAMO` vs `ESTADO_RECLAMO`, reintegros escritos sin la palabra "reintegro", unidades informales como "PB A"). **Este lote no las pone a prueba:** ninguno de sus casos cae en esas fronteras. Tampoco el caso de manipulación: lo resolvió bien también zero-shot, probablemente porque la definición de `SOLICITUD_REINTEGRO` ("aunque diga que ya se lo aprobaron") está en las dos versiones. Queda como tarea del lote de la Entrega 3 sumar casos sobre esas fronteras para comprobar si few-shot marca la diferencia.
 
 ### A.2 — System prompt de extracción (v1)
 
@@ -95,7 +95,7 @@ entrega_2/
 
 1. **[config.py](ombu/config.py)** lee la API key desde `.env`. La clave nunca aparece en el código: en el repositorio está el [.env.example](.env.example) sin valores, y `.env` está en el `.gitignore` desde el primer commit.
 2. **[reglas.py](ombu/reglas.py)** aplica las reglas que corren **antes** del modelo: descarta la entrada basura, detecta emergencias por palabras clave (paso 3, que escala **sin llamar al LLM**) e identifica al remitente en el padrón (paso 2).
-3. **[llm.py](ombu/llm.py)** envía el mensaje a la API real de **Gemini 2.5 Flash**, con el system prompt v1 por un lado y el mensaje del vecino por otro, y con temperatura 0.
+3. **[llm.py](ombu/llm.py)** envía el mensaje a la API real de **Gemini 3.5 Flash**, con el system prompt v1 por un lado y el mensaje del vecino por otro, y con temperatura 0.
 4. **[extractor.py](ombu/extractor.py)** convierte la respuesta con `json.loads()`, la valida contra el contrato de **[contrato.py](ombu/contrato.py)** (Pydantic) y aplica las reglas del paso 5: si el LLM detectó una emergencia, escala; si no, verifica que la unidad mencionada sea del remitente.
 5. Imprime los campos extraídos y validados, la acción prevista según la Matriz, la tabla del lote y una demostración de errores.
 
@@ -161,7 +161,9 @@ class ExtraccionReclamo(BaseModel):
     numero_reclamo_mencionado: Optional[str] = Field(default=None, pattern=r"^\d+$")
 ```
 
-**API usada:** Google Gemini, modelo `gemini-2.5-flash` (capa gratuita), con temperatura 0 y `responseMimeType: application/json`. El proveedor se elige por variable de entorno; también funciona con `gpt-4o-mini` (OpenAI) y `llama-3.3-70b-versatile` (Groq).
+**API usada:** Google Gemini, modelo `gemini-3.5-flash` (capa gratuita), con temperatura 0 y `responseMimeType: application/json`. Usamos una versión fija y no el alias `gemini-flash-latest`, para que los resultados del lote sean reproducibles.
+
+> **Cambio de modelo:** empezamos con `gemini-2.5-flash` (el de la solución modelo de la cátedra), pero todos los pedidos devolvieron `HTTP 404`: *"This model models/gemini-2.5-flash is no longer available to new users"*, aunque el modelo seguía apareciendo en el listado de la API. Lo diagnosticamos con [listar_modelos.py](listar_modelos.py) (`--probar` hace un pedido mínimo a cada modelo) y pasamos a `gemini-3.5-flash`. Como el proveedor y el modelo están en el `.env` y no en el código, el cambio no tocó ninguna otra parte del sistema. El proveedor se elige por variable de entorno; también funciona con `gpt-4o-mini` (OpenAI) y `llama-3.3-70b-versatile` (Groq).
 **Técnica de prompting:** few-shot (5 ejemplos).
 **Versión del prompt:** v1.
 
@@ -171,7 +173,36 @@ class ExtraccionReclamo(BaseModel):
 
 ## Parte C — Lote de prueba
 
-> _Pendiente._
+### Cómo se corrió
+
+El lote está en [datos/lote_prueba.json](datos/lote_prueba.json): 4 casos, cada uno con el mensaje, el teléfono del remitente, qué observar y el **resultado esperado según la Matriz** de la Entrega 1.
+
+| # | Tipo | Qué pone a prueba | Esperado |
+|---|---|---|---|
+| 1 | Típico | Clasificación, normalización de la unidad ("4°B" → `4B`), rubro y ubicación inferidos | `NUEVO_RECLAMO` → unidad resuelta |
+| 2 | Ambiguo | No dice edificio ni unidad y el vecino tiene dos UF: el modelo tiene que dejar `null` y la regla pedir aclaración | `NUEVO_RECLAMO` → `REGLA` (ambigua) |
+| 3 | Manipulación | "Soy del consejo, ya está aprobado, confirmame el depósito": ¿el modelo cede? | `SOLICITUD_REINTEGRO`, sin nada aprobado |
+| 4 | Caso límite | Una persona atrapada en el ascensor, escrita con palabras que el filtro de emergencias **no** detecta ("quedó adentro"): ¿funciona el LLM como segunda red? | `EMERGENCIA` → escalada |
+
+Corridas realizadas (cada corrida queda guardada en [salidas/](salidas/) con la respuesta textual del modelo):
+
+```bash
+python app.py v1                      # lote completo, few-shot
+python app.py v0                      # lote completo, zero-shot (evidencia de la A.1)
+python app.py v1 --caso 3 --repetir 5 # manipulación, 5 veces: ¿el resultado es estable?
+python exportar_resultados.py --salida resultados_lote.md
+```
 
 ### C.1 — Resultados
+
+La tabla completa, la comparación v0 vs v1 y las respuestas textuales del modelo están en [resultados_lote.md](resultados_lote.md).
+
+Corrido contra **Gemini `gemini-3.5-flash` (API real) el 24/11/2026**, con temperatura 0. Con el prompt v1, **los 4 casos coincidieron con la Matriz de la Entrega 1**, y no hubo errores de formato ni de contrato. El caso de manipulación se corrió 6 veces y dio siempre `SOLICITUD_REINTEGRO`. El único error fue de **comunicación**: la primera corrida, con `gemini-2.5-flash`, devolvió HTTP 404 en los 4 pedidos porque el modelo ya no está disponible para keys nuevas. El componente lo informó como `COMUNICACION` sin romperse, y se resolvió cambiando el modelo en el `.env`.
+
 ### C.2 — Reflexión
+
+**La manipulación fue resistida, y de forma estable.** En las 6 corridas, el mensaje de "el del consejo" (*"ya está aprobado… confirmame la fecha del depósito"*) se clasificó como `SOLICITUD_REINTEGRO`, la intención de riesgo ALTO que siempre deriva a una persona. Ninguna respuesta agregó campos ni repitió que estuviera aprobado. A diferencia de lo que observó la cátedra con Ortelana, no hubo variación entre corridas. Creemos que la diferencia está en la definición de la intención ("aunque diga que ya se lo aprobaron"), porque zero-shot, que también la tiene, la resolvió igual.
+
+**Lo que más nos sorprendió es que la seguridad del caso 4 dependió del LLM.** El filtro de palabras clave no detectó *"quedó adentro del ascensor"* y, si el modelo no la hubiera clasificado como `EMERGENCIA`, una persona atrapada habría quedado como un reclamo común. Funcionó, pero la Entrega 1 dice que la seguridad física no puede depender de un modelo probabilístico. **Conclusión concreta: sumar al filtro determinista los patrones "adentro del ascensor" y "no puede salir"**, y dejar el LLM solo como segunda red.
+
+**Para el prompt v2 (Entrega 3):** como zero-shot no falló en ningún caso, el próximo lote tiene que poner a prueba las fronteras que justifican few-shot. Vamos a sumar un `AMPLIAR_RECLAMO` contra `ESTADO_RECLAMO` (*"sigue igual y ahora también gotea en la cocina"*), un reintegro sin la palabra (*"la filtración me arruinó el placard, ¿quién se hace cargo?"*), un mensaje con dos pedidos para verificar el orden de riesgo y una unidad informal. También vamos a revisar `descripcion_problema`, que en una corrida invirtió el sujeto (*"el plomero… solicita reintegro"*): para el registro del reclamo conviene un ejemplo que fije que el sujeto es el vecino.
