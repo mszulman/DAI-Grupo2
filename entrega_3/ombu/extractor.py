@@ -27,7 +27,7 @@ from .contrato import ExtraccionReclamo
 from .llm import llamar_con_reintentos
 from .reglas import RESPUESTA_EMERGENCIA, detectar_emergencia, identificar_remitente, resolver_unidad
 
-PROMPT_VERSION = "v1"
+PROMPT_VERSION = "v2"   # v2 suma CONSULTA_REGLAMENTO (Parte B); v1 queda para comparar
 
 # Acción determinista y riesgo por intención (Matriz de la Entrega 1, B.4).
 # El LLM nunca elige la acción: la elige esta tabla. Se ejecutan en la Entrega 3.
@@ -37,6 +37,7 @@ ACCIONES = {
     "NUEVO_RECLAMO":       {"accion": "buscar_duplicado_y_registrar",    "riesgo": "MEDIO"},
     "AMPLIAR_RECLAMO":     {"accion": "agregar_info_a_reclamo",          "riesgo": "MEDIO"},
     "ESTADO_RECLAMO":      {"accion": "consultar_estado_reclamo",        "riesgo": "BAJO"},
+    "CONSULTA_REGLAMENTO": {"accion": "responder_con_rag",               "riesgo": "BAJO"},
     "FUERA_DE_ALCANCE":    {"accion": "derivar_a_administrativo",        "riesgo": "BAJO"},
 }
 
@@ -106,9 +107,10 @@ def aplicar_reglas(extraccion: dict, ufs_vinculadas: list[dict]) -> dict:
     if extraccion["intencion"] == "EMERGENCIA":
         return escalar_emergencia("Detectada por el LLM (el filtro de palabras clave no la vio)")
 
-    # Lo que está fuera de alcance se deriva sin necesidad de identificar la unidad.
-    if extraccion["intencion"] == "FUERA_DE_ALCANCE":
-        return {"ok": True, "etapa": "LISTO", **ACCIONES["FUERA_DE_ALCANCE"]}
+    # Lo que está fuera de alcance se deriva, y una consulta de reglamento solo lee:
+    # ninguna de las dos necesita identificar la unidad (el edificio sale del padrón).
+    if extraccion["intencion"] in ("FUERA_DE_ALCANCE", "CONSULTA_REGLAMENTO"):
+        return {"ok": True, "etapa": "LISTO", **ACCIONES[extraccion["intencion"]]}
 
     uf, motivo = resolver_unidad(extraccion, ufs_vinculadas)
     if uf is None:

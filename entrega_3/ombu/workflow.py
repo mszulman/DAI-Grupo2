@@ -14,7 +14,12 @@ sigue: solo interviene en los pasos marcados [LLM]. Esa es la diferencia con un 
       ├─ 5  Validar contrato y que la unidad sea del vecino ...... [Regla]    ┘
       │       └─ ✋ falla → REVISION_HUMANA  ·  ambigua → PEDIR_ACLARACION
       ├─    Enrutar según la intención ........................... [Regla]
-      │       └─ FUERA_DE_ALCANCE → DERIVADO (respuesta fija)
+      │       ├─ FUERA_DE_ALCANCE → DERIVADO (respuesta fija)
+      │       └─ CONSULTA_REGLAMENTO → RAG (Parte B) ........................ [RAG + LLM]
+      │             ├─ 6  Buscar en el reglamento, filtrado por edificio y vigencia [Herramienta: sensor]
+      │             ├─ ✋ nada supera el umbral → DERIVADO ("No tengo información oficial")
+      │             ├─ 9  Responder solo con los fragmentos recuperados ...... [LLM]
+      │             └─ 10 Validar que cite solo lo recuperado (si no → DERIVADO) [Regla]
       ├─ 6  Buscar el reclamo: duplicado, citado o del vecino .... [Herramienta: sensor]
       │       └─ ✋ el reclamo no existe o no es del vecino → REVISION_HUMANA
       ├─ 7  Registrar, sumar aviso o ampliar; prioridad por reglas [Herramienta: actuador] + [Regla]
@@ -27,7 +32,8 @@ Estados posibles al terminar:
     EMERGENCIA_ESCALADA     → riesgo físico: guardia + respuesta fija, sin redacción del LLM
     REVISION_HUMANA         → algo no es confiable (extracción, padrón, unidad, reclamo ajeno): revisa una persona
     PEDIR_ACLARACION        → el vecino tiene varias unidades y no dijo cuál
-    DERIVADO                → no es un reclamo de mantenimiento: respuesta fija
+    DERIVADO                → no es un reclamo de mantenimiento, o el reglamento no responde la consulta
+    CONSULTA_RESPONDIDA     → consulta de reglamento respondida con RAG, citando la regla (Parte B)
     RECLAMO_REGISTRADO      → reclamo nuevo, con número real y prioridad calculada por reglas
     AVISO_SUMADO            → ya había un reclamo abierto por lo mismo: se suma el aviso, no se duplica
     RECLAMO_AMPLIADO        → se agregó información a un reclamo del vecino
@@ -39,16 +45,19 @@ Estados posibles al terminar:
 from datetime import date
 from typing import Optional
 
+from .base_conocimiento import BaseConocimiento
 from .extractor import PROMPT_VERSION, procesar_mensaje
+from .rag import SIN_INFORMACION, responder_consulta
 from .redactor import redactar_respuesta
 from .registro import RegistroReclamos
-from .reglas import RESPUESTA_EMERGENCIA, calcular_prioridad, identificar_remitente
+from .reglas import RESPUESTA_EMERGENCIA, calcular_prioridad, edificios_del_vecino, identificar_remitente
 
 RESPUESTAS_FIJAS = {
     "REVISION_HUMANA": "Recibimos tu mensaje. Una persona del equipo de Administración Ombú lo va a revisar "
                        "y te va a responder por este medio.",
     "DERIVADO": "Este canal es para reclamos de mantenimiento del edificio. Derivamos tu consulta al equipo "
                 "administrativo, que te va a responder por este medio.",
+    "DERIVADO_CONSULTA": "Derivamos tu consulta al equipo administrativo, que te va a responder por este medio.",
 }
 
 
@@ -88,10 +97,11 @@ def _redactar(traza: Traza, resultado: dict) -> dict:
 
 def workflow_reclamo(mensaje: str, telefono: str, registro: RegistroReclamos,
                      simulacion: Optional[str] = None, version: str = PROMPT_VERSION,
-                     fecha: Optional[str] = None) -> dict:
+                     fecha: Optional[str] = None, base: Optional[BaseConocimiento] = None) -> dict:
     """
     Ejecuta el journey de un reclamo de punta a punta.
-    `registro` se inyecta (no se construye acá): así el workflow se prueba con un registro de prueba.
+    `registro` y `base` (la base de conocimiento del RAG) se inyectan: así el workflow se prueba con
+    datos de prueba. Si no se pasa `base`, se abre la real recién cuando hace falta (solo en consultas).
     `simulacion` es la respuesta de ejemplo del LLM que se usa cuando no hay API key.
     """
     traza = Traza()
@@ -132,13 +142,16 @@ def workflow_reclamo(mensaje: str, telefono: str, registro: RegistroReclamos,
 
     datos = r["extraccion"]
     traza.registrar("4", "LLM", "Interpretar el mensaje", f"intención = {datos['intencion']}")
-    traza.registrar("5", "Regla", "Validar contrato y unidad", f"✅ {r.get('uf', {}).get('uf_id', 'sin unidad')}")
+    traza.registrar("5", "Regla", "Validar contrato y unidad", f"✅ {r.get('uf', {}).get('uf_id', 'no hace falta')}")
 
     # ── Enrutamiento [Regla]: el CÓDIGO decide el camino según la intención ───────
     intencion = datos["intencion"]
     if intencion == "FUERA_DE_ALCANCE":
         traza.registrar("—", "Regla", "Enrutar por intención", "FUERA_DE_ALCANCE → respuesta fija")
         return _terminar(traza, "DERIVADO", _fija("DERIVADO"), extraccion=datos)
+    if intencion == "CONSULTA_REGLAMENTO":
+        traza.registrar("—", "Regla", "Enrutar por intención", "CONSULTA_REGLAMENTO → RAG sobre el reglamento")
+        return _consulta_reglamento(traza, datos, identificar_remitente(telefono), mensaje, base)
     traza.registrar("—", "Regla", "Enrutar por intención", f"{intencion} → flujo de {intencion.lower()}")
 
     uf = r["uf"]
@@ -238,3 +251,34 @@ def _reintegro(traza, datos, uf, mensaje) -> dict:
     resultado = {"tipo": "REINTEGRO_EN_EVALUACION", "descripcion": datos["descripcion_problema"]}
     return _terminar(traza, "REINTEGRO_EN_EVALUACION", _redactar(traza, resultado),
                      requiere_decision_humana=True, pedido=pedido)
+
+
+def _consulta_reglamento(traza, datos, ufs, mensaje, base) -> dict:
+    """
+    Parte B: en vez de derivar, se busca en el reglamento y las políticas y se responde citando la regla.
+    El filtro de edificio sale del padrón. Si nada alcanza el umbral, o la respuesta no está anclada
+    en lo recuperado, NO se inventa: se deriva.
+    """
+    edificios = edificios_del_vecino(datos, ufs)
+    r = responder_consulta(mensaje, edificios, base)
+    candidatos = "  ".join(f"{i} {s:.2f}{'✅' if ok else '✗'}" for i, s, ok in r["candidatos"])
+    traza.registrar("6", "RAG", f"Buscar en el reglamento ({', '.join(edificios)} + TODOS, vigentes)",
+                    candidatos or "sin candidatos")
+    extra = {"extraccion": datos, "rag": {k: v for k, v in r.items() if k != "texto"}}
+
+    if r["estado"] == "RESPONDIDA":
+        traza.registrar("9", "LLM", "Responder con el contexto recuperado", r["origen"])
+        traza.registrar("10", "Regla", "Validar la salida", f"✅ cita {', '.join(r['fuentes'])}")
+        return _terminar(traza, "CONSULTA_RESPONDIDA", {"texto": r["texto"], "origen": f"RAG · {r['origen']}",
+                                                        "fuentes": r["fuentes"]}, **extra)
+
+    # ✋ Punto de control: el reglamento no responde esto (o la respuesta no se pudo validar).
+    if r["fuentes"]:
+        traza.registrar("9", "LLM", "Responder con el contexto recuperado", r["origen"])
+        traza.registrar("10", "Regla", "Validar la salida", "✋ no se envía: sin información oficial")
+    else:
+        traza.registrar("6", "Regla", "Umbral de similitud", f"✋ {r['origen']}")
+    texto = f"{SIN_INFORMACION} {RESPUESTAS_FIJAS['DERIVADO_CONSULTA']}"
+    return _terminar(traza, "DERIVADO", {"texto": texto, "origen": "RESPUESTA FIJA (el reglamento no cubre la consulta)"},
+                     motivo=r["origen"], **extra)
+

@@ -1,5 +1,5 @@
 """
-Contrato de datos v1: lo que el LLM debe devolver en el paso 4 del journey.
+Contrato de datos v2: lo que el LLM debe devolver en el paso 4 del journey.
 
 De dónde sale (Entrega 1):
     - Los valores de `intencion` son EXACTAMENTE los de la Matriz de Intenciones (B.4).
@@ -20,6 +20,7 @@ Intencion = Literal[
     "NUEVO_RECLAMO",
     "AMPLIAR_RECLAMO",
     "ESTADO_RECLAMO",
+    "CONSULTA_REGLAMENTO",   # nuevo en la Entrega 3 (Parte B): se responde con RAG
     "FUERA_DE_ALCANCE",
 ]
 

@@ -117,6 +117,12 @@ def test_fuera_de_alcance_no_necesita_unidad():
     assert aplicar_reglas({"intencion": "FUERA_DE_ALCANCE"}, identificar_remitente(TEL_DOS_UF))["ok"]
 
 
+def test_consulta_de_reglamento_no_necesita_identificar_la_unidad():
+    """Solo lee: aunque el vecino tenga dos unidades, no hay que pedirle aclaración (Parte B)."""
+    r = aplicar_reglas({"intencion": "CONSULTA_REGLAMENTO"}, identificar_remitente(TEL_DOS_UF))
+    assert r["ok"] and r["riesgo"] == "BAJO" and "uf" not in r
+
+
 # ── Entrada basura ───────────────────────────────────────────────────────────
 
 @pytest.mark.parametrize("mensaje", ["", "   ", "¿¿??!!", None])

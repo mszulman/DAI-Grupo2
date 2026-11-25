@@ -78,5 +78,29 @@
     "observar": "No es un reclamo de mantenimiento: respuesta fija que deriva.",
     "estado_esperado": "DERIVADO",
     "simulacion": "{\"intencion\": \"FUERA_DE_ALCANCE\", \"edificio_mencionado\": null, \"unidad_mencionada\": null, \"rubro\": null, \"ubicacion\": null, \"descripcion_problema\": null, \"numero_reclamo_mencionado\": null}"
+  },
+  {
+    "tipo": "Consulta de reglamento",
+    "telefono": "+54 9 11 5555-0303",
+    "mensaje": "Hola, ¿en qué horario se pueden hacer arreglos adentro del departamento? ¿Puede venir el albañil un sábado?",
+    "observar": "El vecino es de Ceibo 880: tiene que recuperar el reglamento de SU edificio (REG-CEI-OBRAS), nunca el de Tipas 1450.",
+    "estado_esperado": "CONSULTA_RESPONDIDA",
+    "simulacion": "{\"intencion\": \"CONSULTA_REGLAMENTO\", \"edificio_mencionado\": null, \"unidad_mencionada\": null, \"rubro\": null, \"ubicacion\": null, \"descripcion_problema\": null, \"numero_reclamo_mencionado\": null}"
+  },
+  {
+    "tipo": "Consulta de política",
+    "telefono": "+54 9 11 5555-0101",
+    "mensaje": "Una consulta: cuando se rompe el ascensor, ¿cuánto tardan en mandar a alguien?",
+    "observar": "Tiene que responder con la política VIGENTE (POL-PLAZOS, 24 horas), no con la versión reemplazada (48 horas).",
+    "estado_esperado": "CONSULTA_RESPONDIDA",
+    "simulacion": "{\"intencion\": \"CONSULTA_REGLAMENTO\", \"edificio_mencionado\": null, \"unidad_mencionada\": null, \"rubro\": \"ascensor\", \"ubicacion\": \"espacio_comun\", \"descripcion_problema\": null, \"numero_reclamo_mencionado\": null}"
+  },
+  {
+    "tipo": "Consulta fuera del corpus",
+    "telefono": "+54 9 11 5555-0101",
+    "mensaje": "¿Se puede tener un perro en el departamento?",
+    "observar": "El corpus no habla de mascotas: ningún fragmento tiene que superar el umbral y el LLM no se llama. No inventa: deriva.",
+    "estado_esperado": "DERIVADO",
+    "simulacion": "{\"intencion\": \"CONSULTA_REGLAMENTO\", \"edificio_mencionado\": null, \"unidad_mencionada\": null, \"rubro\": null, \"ubicacion\": null, \"descripcion_problema\": null, \"numero_reclamo_mencionado\": null}"
   }
 ]

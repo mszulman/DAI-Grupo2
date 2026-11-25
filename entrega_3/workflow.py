@@ -1,6 +1,6 @@
 """
-Entrega 3 · Parte A — Workflow de reclamos de Administración Ombú
-=================================================================
+Entrega 3 · Partes A y B — Workflow de reclamos de Administración Ombú
+========================================================================
 Corre el lote (datos/lote_workflow.json) por el workflow (ombu/workflow.py) y muestra:
   1. La TRAZA de cada caso: qué pasos recorrió y dónde se detuvo.
   2. La respuesta que recibiría el vecino.
@@ -8,7 +8,7 @@ Corre el lote (datos/lote_workflow.json) por el workflow (ombu/workflow.py) y mu
 Además guarda la corrida completa en salidas/ (evidencia para el informe).
 
 Uso (desde la carpeta entrega_3/):
-    python workflow.py               → los 10 casos
+    python workflow.py               → los 13 casos (11 a 13: consultas de reglamento con RAG)
     python workflow.py --caso 5      → solo un caso
     python workflow.py --sin-guardar → no escribe en salidas/
 """
@@ -19,12 +19,14 @@ import os
 import time
 from datetime import datetime
 
+from ombu.base_conocimiento import UMBRAL_SIMILITUD
 from ombu.config import RAIZ_PROYECTO, detectar_proveedor
+from ombu.extractor import PROMPT_VERSION
 from ombu.llm import modelo_configurado
 from ombu.registro import RegistroReclamos
 from ombu.workflow import workflow_reclamo
 
-ICONOS = {"LLM": "🤖", "Regla": "📏", "Herramienta": "🔧", "Humano": "🙋", "LLM + Regla": "🤖📏"}
+ICONOS = {"LLM": "🤖", "Regla": "📏", "Herramienta": "🔧", "Humano": "🙋", "LLM + Regla": "🤖📏", "RAG": "📚"}
 PAUSA_SEGUNDOS = float(os.getenv("PAUSA_SEGUNDOS", "4"))   # para no chocar con el límite por minuto
 
 
@@ -77,6 +79,7 @@ def guardar(registros: list[dict]) -> None:
     datos = {"fecha": datetime.now().isoformat(timespec="seconds"),
              "proveedor": proveedor[0] if proveedor else "simulacion",
              "modelo": modelo_configurado(proveedor[0]) if proveedor else "simulacion",
+             "prompt_extraccion": PROMPT_VERSION, "umbral_rag": UMBRAL_SIMILITUD,
              "registros": registros}
     carpeta = RAIZ_PROYECTO / "salidas"
     carpeta.mkdir(exist_ok=True)
@@ -87,15 +90,16 @@ def guardar(registros: list[dict]) -> None:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Corre el lote del workflow de la Entrega 3.")
-    parser.add_argument("--caso", type=int, help="correr solo un caso (1 a 10)")
+    parser.add_argument("--caso", type=int, help="correr solo un caso (1 a 13)")
     parser.add_argument("--sin-guardar", action="store_true", help="no guardar la corrida en salidas/")
     args = parser.parse_args()
 
-    titulo("ENTREGA 3 · PARTE A — WORKFLOW DE RECLAMOS DE ADMINISTRACIÓN OMBÚ")
+    titulo("ENTREGA 3 · PARTES A Y B — WORKFLOW DE RECLAMOS DE ADMINISTRACIÓN OMBÚ")
     registros = correr_lote(args.caso)
     imprimir_tabla(registros)
     if not args.sin_guardar:
         guardar(registros)
     if detectar_proveedor() is None:
-        print("\n⚠️  MODO SIMULACIÓN: la extracción usó respuestas de ejemplo y la redacción, la plantilla fija.")
+        print("\n⚠️  MODO SIMULACIÓN: la extracción usó respuestas de ejemplo; la redacción, la plantilla fija;")
+        print("    y el RAG, el fragmento recuperado textual (la búsqueda sí es real).")
         print("    Para usar un LLM real: cp .env.example .env   y completá GEMINI_API_KEY")

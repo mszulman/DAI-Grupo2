@@ -99,6 +99,23 @@ def resolver_unidad(extraccion: dict, ufs_vinculadas: list[dict]) -> tuple[Optio
     return None, f"AMBIGUA: el teléfono tiene varias unidades ({opciones}); hay que pedir aclaración"
 
 
+def edificios_del_vecino(extraccion: dict, ufs_vinculadas: list[dict]) -> list[str]:
+    """
+    Para el filtro del RAG (Parte B): de qué edificios se puede leer el reglamento.
+    Salen del PADRÓN, no del mensaje: si el vecino nombra uno de sus edificios, se usa ese; si nombra
+    otro o no nombra ninguno, se usan todos los suyos. El reglamento de otro consorcio nunca entra.
+    """
+    propios = {u["uf_id"].split("-")[0]: u["consorcio"] for u in ufs_vinculadas}
+    edificio = extraccion.get("edificio_mencionado")
+    if edificio:
+        edif = normalizar_texto(edificio)
+        nombrados = [codigo for codigo, nombre in propios.items()
+                     if edif in normalizar_texto(nombre) or normalizar_texto(nombre) in edif]
+        if nombrados:
+            return nombrados
+    return list(propios)
+
+
 # ── Paso 7 — Prioridad de un reclamo nuevo ──────────────────────────────────
 # La prioridad la calcula el CÓDIGO, nunca el LLM (Matriz B.4 v2): el modelo solo extrae
 # rubro, ubicación y descripción, y esta regla decide.
