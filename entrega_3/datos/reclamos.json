@@ -1,0 +1,54 @@
+[
+  {
+    "numero": "2987",
+    "uf_id": "CEI0880-7C",
+    "consorcio": "Ceibo 880",
+    "rubro": "cerrajeria",
+    "ubicacion": "espacio_comun",
+    "descripcion": "La puerta de la terraza no cierra",
+    "prioridad": "MEDIA",
+    "estado": "RESUELTO",
+    "fecha_alta": "2026-11-02",
+    "avisos": [],
+    "notas": []
+  },
+  {
+    "numero": "3021",
+    "uf_id": "TIP1450-4B",
+    "consorcio": "Tipas 1450",
+    "rubro": "agua",
+    "ubicacion": "unidad",
+    "descripcion": "Filtración en el techo del baño, viene del departamento de arriba",
+    "prioridad": "MEDIA",
+    "estado": "EN_CURSO",
+    "fecha_alta": "2026-11-18",
+    "avisos": [],
+    "notas": ["Plomero asignado, visita pendiente de coordinar con la unidad 5B"]
+  },
+  {
+    "numero": "3044",
+    "uf_id": "TIP1450-2A",
+    "consorcio": "Tipas 1450",
+    "rubro": "ascensor",
+    "ubicacion": "espacio_comun",
+    "descripcion": "Ascensor detenido en planta baja",
+    "prioridad": "ALTA",
+    "estado": "ABIERTO",
+    "fecha_alta": "2026-11-23",
+    "avisos": [],
+    "notas": []
+  },
+  {
+    "numero": "3050",
+    "uf_id": "CEI0880-1D",
+    "consorcio": "Ceibo 880",
+    "rubro": "electricidad",
+    "ubicacion": "espacio_comun",
+    "descripcion": "No funciona la luz del palier del primer piso",
+    "prioridad": "MEDIA",
+    "estado": "EN_CURSO",
+    "fecha_alta": "2026-11-20",
+    "avisos": [],
+    "notas": []
+  }
+]

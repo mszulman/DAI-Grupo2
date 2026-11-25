@@ -2,11 +2,12 @@
 Reglas de negocio deterministas: si entra X, siempre sale Y.
 Por eso las ejecuta Python y NO el LLM.
 
-Hoy (Entrega 2), del user journey de la Entrega 1 (B.2):
-    - Paso 2: identificar al remitente por su teléfono en el padrón.
-    - Paso 3: filtro de emergencias por palabras clave (corre ANTES del LLM).
-    - Paso 5: verificar que la unidad mencionada pertenezca al remitente.
-Entrega 3: búsqueda de duplicados (paso 6), prioridad y registro del reclamo (paso 7).
+Del user journey de la Entrega 1 (adenda, B.2 v2):
+    - Paso 2: identificar al remitente por su teléfono en el padrón.            (Entrega 2)
+    - Paso 3: filtro de emergencias por palabras clave (corre ANTES del LLM).   (Entrega 2, ampliado)
+    - Paso 5: verificar que la unidad mencionada pertenezca al remitente.       (Entrega 2)
+    - Paso 7: calcular la prioridad de un reclamo nuevo.                        (Entrega 3)
+La búsqueda de duplicados (paso 6) y el registro (paso 7) están en registro.py.
 """
 
 import json
@@ -31,6 +32,9 @@ PATRONES_EMERGENCIA = [
     r"inundaci", r"se (esta )?inunda",
     r"incendio", r"\bhumo\b", r"\bfuego\b", r"chispa", r"cortocircuito",
     r"(atrapad|encerrad)[oa]s? en el ascensor", r"quedo (alguien )?(atrapad|encerrad)",
+    # Entrega 3: el caso 4 del lote de la Entrega 2 ("quedó adentro del ascensor") pasó el
+    # filtro y solo lo detectó el LLM. La seguridad no puede depender del modelo: lo sumamos.
+    r"adentro del ascensor", r"no (puede|pueden|puedo|podemos) salir",
     r"derrumbe", r"se (cayo|esta cayendo) (el|un|una|la) (techo|cielorraso|balcon|pared)",
 ]
 
@@ -93,3 +97,30 @@ def resolver_unidad(extraccion: dict, ufs_vinculadas: list[dict]) -> tuple[Optio
         return candidatas[0], "Unidad identificada"
     opciones = ", ".join(f"{u['unidad']} de {u['consorcio']}" for u in candidatas)
     return None, f"AMBIGUA: el teléfono tiene varias unidades ({opciones}); hay que pedir aclaración"
+
+
+# ── Paso 7 — Prioridad de un reclamo nuevo ──────────────────────────────────
+# La prioridad la calcula el CÓDIGO, nunca el LLM (Matriz B.4 v2): el modelo solo extrae
+# rubro, ubicación y descripción, y esta regla decide.
+
+RUBROS_CRITICOS = {"gas", "ascensor"}
+FRASES_SIN_SERVICIO = [r"sin agua", r"no (hay|tenemos|tengo) agua", r"sin luz", r"no (hay|tenemos|tengo) luz"]
+
+
+def calcular_prioridad(rubro: str, ubicacion: Optional[str], descripcion: Optional[str]) -> tuple[str, str]:
+    """
+    Devuelve (prioridad, motivo). Regla binaria: si entra X, siempre sale Y.
+        ALTA  → gas o ascensor, o un edificio/unidad sin un servicio básico
+        MEDIA → cualquier problema en un espacio común, o agua, electricidad o estructura
+        BAJA  → el resto (cerrajería u otros dentro de una unidad)
+    """
+    texto = normalizar_texto(descripcion or "")
+    if rubro in RUBROS_CRITICOS:
+        return "ALTA", f"rubro {rubro}"
+    if any(re.search(p, texto) for p in FRASES_SIN_SERVICIO):
+        return "ALTA", "sin un servicio básico"
+    if ubicacion == "espacio_comun":
+        return "MEDIA", "afecta un espacio común"
+    if rubro in {"agua", "electricidad", "estructura"}:
+        return "MEDIA", f"rubro {rubro}"
+    return "BAJA", "problema acotado a la unidad"
