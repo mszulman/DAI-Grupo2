@@ -1,0 +1,22 @@
+[
+  {
+    "pregunta": "¿Cuánto tardan en venir si se rompe el ascensor?",
+    "edificio": "TIP1450",
+    "que_mirar": "El plazo es una política de Ombú: un modelo sin contexto no puede conocerlo. La vigente (POL-PLAZOS) da 24 horas para prioridad ALTA; la versión reemplazada decía 48."
+  },
+  {
+    "pregunta": "Si llamo yo a un plomero por un problema del edificio, ¿me devuelven la plata?",
+    "edificio": "CEI0880",
+    "que_mirar": "POL-REINTEGRO vigente: solo con reclamo previo, si es una parte común, con factura y con decisión de la administración. La versión reemplazada decía que alcanzaba con mandar el ticket: es la que el filtro tiene que dejar afuera."
+  },
+  {
+    "pregunta": "¿Puedo hacer venir al albañil un sábado?",
+    "edificio": "CEI0880",
+    "que_mirar": "Depende del edificio: en Ceibo 880 sí, de 9 a 13 (REG-CEI-OBRAS); en Tipas 1450 no (REG-TIP-OBRAS). Sin contexto, el modelo no puede saberlo."
+  },
+  {
+    "pregunta": "¿Puedo tener un perro en el departamento?",
+    "edificio": "TIP1450",
+    "que_mirar": "Fuera del corpus (caso Destacado): ni las políticas ni los reglamentos hablan de mascotas. Con RAG tiene que responder 'No tengo información oficial sobre esa consulta.'"
+  }
+]

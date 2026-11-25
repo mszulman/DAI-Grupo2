@@ -1,0 +1,18 @@
+[
+  {"pregunta": "¿Cuánto tardan en mandar a alguien si se rompe el ascensor?", "edificio": "TIP1450", "esperado": "POL-PLAZOS"},
+  {"pregunta": "¿Quién paga el arreglo de la canilla de mi cocina?", "edificio": "TIP1450", "esperado": "POL-RESP-UNIDAD"},
+  {"pregunta": "¿La bomba de agua del edificio la paga el consorcio?", "edificio": "CEI0880", "esperado": "POL-RESP-COMUN"},
+  {"pregunta": "Me cae agua del techo del baño y viene del departamento de arriba, ¿quién se encarga?", "edificio": "TIP1450", "esperado": "POL-FILTRACIONES"},
+  {"pregunta": "Si llamo yo a un plomero por un problema del edificio, ¿me devuelven la plata?", "edificio": "CEI0880", "esperado": "POL-REINTEGRO"},
+  {"pregunta": "¿Puedo hacer venir al albañil un sábado?", "edificio": "CEI0880", "esperado": "REG-CEI-OBRAS"},
+  {"pregunta": "¿Puedo hacer venir al albañil un sábado?", "edificio": "TIP1450", "esperado": "REG-TIP-OBRAS"},
+  {"pregunta": "Alquilo el departamento, ¿puedo reclamar por la luz del pasillo?", "edificio": "CEI0880", "esperado": "POL-INQUILINOS"},
+  {"pregunta": "¿Cómo hago para que me den un número de reclamo?", "edificio": "TIP1450", "esperado": "POL-CANAL"},
+  {"pregunta": "¿Por qué mi reclamo por la pintura quedó con prioridad baja?", "edificio": "TIP1450", "esperado": "POL-PRIORIDAD"},
+  {"pregunta": "¿Puedo poner el equipo de aire acondicionado en la terraza?", "edificio": "TIP1450", "esperado": "REG-TIP-TERRAZA"},
+  {"pregunta": "Siento olor a gas en la cocina, ¿qué tengo que hacer?", "edificio": "CEI0880", "esperado": "POL-EMERGENCIA"},
+  {"pregunta": "¿Puedo tener un perro en el departamento?", "edificio": "TIP1450", "esperado": null},
+  {"pregunta": "¿Aceptan pagar las expensas con tarjeta de crédito?", "edificio": "CEI0880", "esperado": null},
+  {"pregunta": "¿Cuándo es la próxima asamblea de propietarios?", "edificio": "TIP1450", "esperado": null},
+  {"pregunta": "¿Se puede usar la parrilla de la terraza el fin de semana?", "edificio": "TIP1450", "esperado": null}
+]
