@@ -124,3 +124,40 @@ def calcular_prioridad(rubro: str, ubicacion: Optional[str], descripcion: Option
     if rubro in {"agua", "electricidad", "estructura"}:
         return "MEDIA", f"rubro {rubro}"
     return "BAJA", "problema acotado a la unidad"
+
+
+# ── Paso 10 — Validar la respuesta redactada por el LLM ─────────────────────
+# La redacción es probabilística: antes de mandarla, el código controla que no haya
+# inventado nada de lo que el sistema no le dio (el control final contra alucinaciones).
+
+PATRONES_PROHIBIDOS = [
+    (r"\$\s?\d", "menciona un monto"),
+    (r"\b\d{1,2}/\d{1,2}\b", "menciona una fecha"),
+    (r"\b(lunes|martes|miercoles|jueves|viernes|sabado|domingo)\b", "menciona un día de visita"),
+    (r"(?<!no )\b(esta|fue|queda|quedo) (aprobad|confirmad)", "da por aprobado o confirmado algo"),
+    (r"\bdeposit", "menciona un depósito"),
+]
+LARGO_MAXIMO = 900
+
+
+def validar_salida(texto: str, resultado: dict) -> tuple[bool, str]:
+    """
+    Devuelve (ok, motivo). Reglas:
+      - si el resultado tiene número de reclamo, el texto lo menciona;
+      - todo número de reclamo que aparezca en el texto es el del resultado;
+      - no hay montos, fechas, días de visita, aprobaciones ni depósitos;
+      - no es más largo de lo razonable para un WhatsApp.
+    """
+    plano = normalizar_texto(texto)
+    numero = resultado.get("numero_reclamo")
+    if numero and numero not in texto:
+        return False, f"no menciona el reclamo N° {numero}"
+    citados = set(re.findall(r"reclamo\s*(?:nro\.?|numero|n[o°º]?\.?|#)?\s*(\d{3,})", plano))
+    if citados - {numero}:
+        return False, f"menciona otro número de reclamo ({', '.join(sorted(citados - {numero}))})"
+    for patron, motivo in PATRONES_PROHIBIDOS:
+        if re.search(patron, plano):
+            return False, motivo
+    if len(texto) > LARGO_MAXIMO:
+        return False, "es demasiado larga"
+    return True, "OK"
