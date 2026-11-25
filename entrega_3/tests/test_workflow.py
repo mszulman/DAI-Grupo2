@@ -8,7 +8,6 @@ import json
 
 import pytest
 
-from ombu import extractor, redactor
 from ombu.base_conocimiento import cargar_corpus
 from ombu.config import RAIZ_PROYECTO
 from ombu.rag import SIN_INFORMACION
@@ -17,13 +16,6 @@ from ombu.reglas import edificios_del_vecino, identificar_remitente
 from ombu.workflow import workflow_reclamo
 
 LOTE = json.loads((RAIZ_PROYECTO / "datos" / "lote_workflow.json").read_text(encoding="utf-8"))
-
-
-@pytest.fixture(autouse=True)
-def sin_api(monkeypatch):
-    """Siempre modo simulación, aunque haya una key en el .env de quien corre los tests."""
-    monkeypatch.setattr(extractor, "detectar_proveedor", lambda: None)
-    monkeypatch.setattr(redactor, "detectar_proveedor", lambda: None)
 
 
 class BaseFalsa:
