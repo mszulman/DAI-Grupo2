@@ -22,3 +22,6 @@ material/
 # Corridas de prueba sin API (no son evidencia) y borradores
 **/salidas/*_SIMULACION*.json
 **/salidas/resultados_lote_borrador.md
+
+# Índice vectorial del RAG: se regenera desde el corpus (python rag.py indexar)
+**/indice_chroma/

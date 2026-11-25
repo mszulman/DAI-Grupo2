@@ -1,0 +1,100 @@
+[
+  {
+    "id": "POL-CANAL",
+    "titulo": "Cómo se hace un reclamo",
+    "fuente": "Política de reclamos de Administración Ombú",
+    "descripcion_semantica": "Cómo hacer un reclamo de mantenimiento o reparación. Los reclamos se hacen por este canal de WhatsApp, desde el teléfono registrado en la administración, indicando el edificio, la unidad (piso y departamento) y qué problema hay. Cada reclamo recibe un número, que sirve para consultar el estado o agregar información después. Si ya hay un reclamo abierto por el mismo problema, por ejemplo el ascensor del edificio, no se abre otro: se suma el aviso del vecino al reclamo existente.",
+    "metadatos": {"codigo": "POL-CANAL", "edificio": "TODOS", "tipo": "politica", "tema": "canal", "vigente": true, "version": "2026-2"}
+  },
+  {
+    "id": "POL-PRIORIDAD",
+    "titulo": "Prioridad de los reclamos",
+    "fuente": "Política de reclamos de Administración Ombú",
+    "descripcion_semantica": "Cómo se decide la prioridad o urgencia de un reclamo. Prioridad ALTA: problemas de gas, ascensores, y cuando la unidad o el edificio se quedan sin agua o sin luz. Prioridad MEDIA: problemas en espacios comunes (pasillos, palier, hall, terraza, cocheras) y problemas de agua, electricidad o estructura dentro de una unidad, como humedad, filtraciones o grietas. Prioridad BAJA: todo lo demás, por ejemplo una cerradura interna o un detalle de pintura. La prioridad la asigna la administración con estos criterios; el vecino no la elige.",
+    "metadatos": {"codigo": "POL-PRIORIDAD", "edificio": "TODOS", "tipo": "politica", "tema": "prioridad", "vigente": true, "version": "2026-2"}
+  },
+  {
+    "id": "POL-PLAZOS",
+    "titulo": "Plazos de atención",
+    "fuente": "Política de reclamos de Administración Ombú",
+    "descripcion_semantica": "Cuánto tardan en atender un reclamo: plazos para la primera visita o el primer contacto del técnico, según la prioridad. Prioridad ALTA: dentro de las 24 horas. Prioridad MEDIA: dentro de los 3 días hábiles. Prioridad BAJA: dentro de los 10 días hábiles. Son plazos para que alguien vaya a ver el problema, no para que quede resuelto: si la reparación necesita repuestos, presupuesto o aprobación del consorcio, la administración informa los próximos pasos en el mismo reclamo.",
+    "metadatos": {"codigo": "POL-PLAZOS", "edificio": "TODOS", "tipo": "politica", "tema": "plazos", "vigente": true, "version": "2026-2"}
+  },
+  {
+    "id": "POL-PLAZOS-2025",
+    "titulo": "Plazos de atención (versión anterior)",
+    "fuente": "Política de reclamos de Administración Ombú — versión 2025-1, reemplazada",
+    "descripcion_semantica": "Cuánto tardan en atender un reclamo: plazos para la visita del técnico según la urgencia. Urgente: dentro de las 48 horas. Normal: dentro de los 5 días hábiles. No urgente: dentro de los 15 días hábiles.",
+    "metadatos": {"codigo": "POL-PLAZOS", "edificio": "TODOS", "tipo": "politica", "tema": "plazos", "vigente": false, "version": "2025-1"}
+  },
+  {
+    "id": "POL-EMERGENCIA",
+    "titulo": "Qué es una emergencia",
+    "fuente": "Política de reclamos de Administración Ombú",
+    "descripcion_semantica": "Qué se considera una emergencia y qué hacer. Es emergencia todo lo que pone en riesgo a las personas o al edificio en este momento: olor a gas, una inundación, fuego o humo, una persona atrapada en el ascensor, cables expuestos o un desprendimiento de mampostería. Ante una emergencia hay que avisar por este canal, que deriva el aviso a la guardia de Ombú las 24 horas, y llamar a los servicios de emergencia si hay riesgo para alguien. Con olor a gas: no encender luces ni artefactos, ventilar, cerrar la llave de paso si es posible y salir del lugar.",
+    "metadatos": {"codigo": "POL-EMERGENCIA", "edificio": "TODOS", "tipo": "politica", "tema": "emergencias", "vigente": true, "version": "2026-2"}
+  },
+  {
+    "id": "POL-RESP-UNIDAD",
+    "titulo": "Reparaciones a cargo del propietario",
+    "fuente": "Política de reclamos de Administración Ombú (según el reglamento de copropiedad)",
+    "descripcion_semantica": "Quién paga los arreglos dentro del departamento. Las reparaciones dentro de una unidad están a cargo de su propietario: las cañerías que sirven solo a esa unidad (por ejemplo la del lavatorio, la ducha o la cocina), los artefactos, la grifería, el termotanque, las cerraduras de la puerta del departamento, los enchufes y la instalación eléctrica interna. La administración no envía técnicos para esos arreglos ni los paga el consorcio. Si no está claro si el origen es de la unidad o del edificio, se hace el reclamo y la administración lo inspecciona.",
+    "metadatos": {"codigo": "POL-RESP-UNIDAD", "edificio": "TODOS", "tipo": "politica", "tema": "responsabilidades", "vigente": true, "version": "2026-2"}
+  },
+  {
+    "id": "POL-RESP-COMUN",
+    "titulo": "Reparaciones a cargo del consorcio",
+    "fuente": "Política de reclamos de Administración Ombú (según el reglamento de copropiedad)",
+    "descripcion_semantica": "Qué arreglos paga el consorcio. Están a cargo del consorcio las reparaciones de las partes comunes del edificio: los ascensores, el hall, los pasillos y palieres, la terraza, la fachada, los techos, las cocheras comunes, la bomba de agua, el tanque, las cañerías generales o columnas que sirven a varias unidades, y la instalación eléctrica y de gas comunes hasta el medidor de cada unidad. Estos arreglos los gestiona la administración y se pagan con las expensas.",
+    "metadatos": {"codigo": "POL-RESP-COMUN", "edificio": "TODOS", "tipo": "politica", "tema": "responsabilidades", "vigente": true, "version": "2026-2"}
+  },
+  {
+    "id": "POL-FILTRACIONES",
+    "titulo": "Filtraciones y humedad que vienen de otra unidad",
+    "fuente": "Política de reclamos de Administración Ombú",
+    "descripcion_semantica": "Qué pasa cuando hay una filtración, una mancha de humedad o una gotera que viene del departamento de arriba, del vecino de al lado o de la terraza. El vecino afectado hace el reclamo y la administración coordina una inspección para encontrar el origen. Si el origen es una parte común (la terraza, una columna de agua), la reparación la paga el consorcio. Si el origen está en otra unidad, la reparación corre por cuenta del propietario de esa unidad. La administración coordina con la otra unidad, pero no comparte los datos personales de otros vecinos.",
+    "metadatos": {"codigo": "POL-FILTRACIONES", "edificio": "TODOS", "tipo": "politica", "tema": "responsabilidades", "vigente": true, "version": "2026-2"}
+  },
+  {
+    "id": "POL-REINTEGRO",
+    "titulo": "Reintegros de gastos de reparación",
+    "fuente": "Política de reclamos de Administración Ombú",
+    "descripcion_semantica": "Si un vecino paga una reparación, ¿le devuelven la plata o se la descuentan de las expensas? Un reintegro solo se analiza si se cumplen todas estas condiciones: había un reclamo registrado antes del arreglo, con su número; el arreglo era de una parte común, a cargo del consorcio; y el vecino presenta la factura del trabajo. Aun así, el reintegro no es automático: lo evalúa y lo decide la administración y, según el caso, el consejo de propietarios. Ningún reintegro se considera aprobado hasta que la administración lo comunica por escrito.",
+    "metadatos": {"codigo": "POL-REINTEGRO", "edificio": "TODOS", "tipo": "politica", "tema": "reintegros", "vigente": true, "version": "2026-2"}
+  },
+  {
+    "id": "POL-REINTEGRO-2025",
+    "titulo": "Reintegros de gastos de reparación (versión anterior)",
+    "fuente": "Política de reclamos de Administración Ombú — versión 2025-1, reemplazada",
+    "descripcion_semantica": "Si un vecino paga una reparación urgente del edificio, la administración se la devuelve. Alcanza con enviar el ticket o la factura por este canal y el importe se descuenta en la siguiente liquidación de expensas, sin necesidad de un reclamo previo.",
+    "metadatos": {"codigo": "POL-REINTEGRO", "edificio": "TODOS", "tipo": "politica", "tema": "reintegros", "vigente": false, "version": "2025-1"}
+  },
+  {
+    "id": "POL-INQUILINOS",
+    "titulo": "Reclamos de inquilinos",
+    "fuente": "Política de reclamos de Administración Ombú",
+    "descripcion_semantica": "Qué puede reclamar un inquilino que alquila un departamento. Los inquilinos registrados en la administración pueden hacer reclamos por problemas de las partes comunes del edificio (ascensor, pasillos, luz del palier, portón). Los problemas dentro del departamento alquilado los tiene que resolver con el propietario o con la inmobiliaria, según su contrato de alquiler. Los pedidos de reintegro los hace siempre el propietario de la unidad.",
+    "metadatos": {"codigo": "POL-INQUILINOS", "edificio": "TODOS", "tipo": "politica", "tema": "inquilinos", "vigente": true, "version": "2026-2"}
+  },
+  {
+    "id": "REG-TIP-OBRAS",
+    "titulo": "Horario de obras y arreglos — Tipas 1450",
+    "fuente": "Reglamento interno del consorcio Tipas 1450",
+    "descripcion_semantica": "Horario permitido para obras, arreglos y trabajos de técnicos, plomeros o albañiles dentro de los departamentos del edificio Tipas 1450: de lunes a viernes de 9 a 18. No se permiten trabajos con ruido los sábados, domingos ni feriados, salvo emergencias. El propietario tiene que avisar al encargado del edificio con al menos 48 horas de anticipación quién va a ingresar y para qué trabajo.",
+    "metadatos": {"codigo": "REG-TIP-OBRAS", "edificio": "TIP1450", "tipo": "reglamento", "tema": "obras", "vigente": true, "version": "2019"}
+  },
+  {
+    "id": "REG-CEI-OBRAS",
+    "titulo": "Horario de obras y arreglos — Ceibo 880",
+    "fuente": "Reglamento interno del consorcio Ceibo 880",
+    "descripcion_semantica": "Horario permitido para obras, arreglos y trabajos de técnicos, plomeros o albañiles dentro de los departamentos del edificio Ceibo 880: de lunes a viernes de 8 a 17 y los sábados de 9 a 13. Domingos y feriados no se permiten trabajos, salvo emergencias. Para obras que duren más de un día, el propietario tiene que pedir autorización por escrito a la administración.",
+    "metadatos": {"codigo": "REG-CEI-OBRAS", "edificio": "CEI0880", "tipo": "reglamento", "tema": "obras", "vigente": true, "version": "2021"}
+  },
+  {
+    "id": "REG-TIP-TERRAZA",
+    "titulo": "Acceso a la terraza y a la sala de máquinas — Tipas 1450",
+    "fuente": "Reglamento interno del consorcio Tipas 1450",
+    "descripcion_semantica": "Acceso a la terraza, la sala de máquinas del ascensor y el tanque de agua en el edificio Tipas 1450. Solo pueden subir el encargado y los técnicos autorizados por la administración; las llaves las tiene el encargado. Los vecinos no pueden instalar antenas, equipos de aire acondicionado ni otros objetos en la terraza sin autorización de la asamblea de propietarios.",
+    "metadatos": {"codigo": "REG-TIP-TERRAZA", "edificio": "TIP1450", "tipo": "reglamento", "tema": "espacios_comunes", "vigente": true, "version": "2019"}
+  }
+]

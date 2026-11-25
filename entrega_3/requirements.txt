@@ -2,3 +2,7 @@ pydantic>=2.0
 python-dotenv>=1.0
 certifi          # opcional: evita errores de certificados SSL en macOS
 pytest>=8.0      # solo para correr las pruebas (tests/)
+
+# Parte B — RAG: base vectorial + embeddings en la compu (sin API key)
+chromadb>=1.0
+fastembed>=0.5            # la primera vez descarga el modelo jina-embeddings-v2-base-es (~640 MB)
