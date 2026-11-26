@@ -17,7 +17,7 @@
     "id": "POL-PLAZOS",
     "titulo": "Plazos de atención",
     "fuente": "Política de reclamos de Administración Ombú",
-    "descripcion_semantica": "Cuánto tardan en atender un reclamo: plazos para la primera visita o el primer contacto del técnico, según la prioridad. Prioridad ALTA: dentro de las 24 horas. Prioridad MEDIA: dentro de los 3 días hábiles. Prioridad BAJA: dentro de los 10 días hábiles. Son plazos para que alguien vaya a ver el problema, no para que quede resuelto: si la reparación necesita repuestos, presupuesto o aprobación del consorcio, la administración informa los próximos pasos en el mismo reclamo.",
+    "descripcion_semantica": "Cuánto tardan en atender un reclamo: plazos para la primera visita o el primer contacto del técnico, según la prioridad. Prioridad ALTA (gas, ascensor que no funciona, edificio o unidad sin agua o sin luz): dentro de las 24 horas. Prioridad MEDIA (espacios comunes, humedad, filtraciones, electricidad o estructura): dentro de los 3 días hábiles. Prioridad BAJA (el resto, por ejemplo una cerradura interna o pintura): dentro de los 10 días hábiles. Son plazos para que alguien vaya a ver el problema, no para que quede resuelto: si la reparación necesita repuestos, presupuesto o aprobación del consorcio, la administración informa los próximos pasos en el mismo reclamo.",
     "metadatos": {"codigo": "POL-PLAZOS", "edificio": "TODOS", "tipo": "politica", "tema": "plazos", "vigente": true, "version": "2026-2"}
   },
   {

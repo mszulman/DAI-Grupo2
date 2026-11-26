@@ -39,9 +39,11 @@ CORPUS = RAIZ_PROYECTO / "corpus" / "reglamento_ombu.json"
 COLECCION = "reglamento_ombu"
 
 K = 3                     # cuántos fragmentos se recuperan
-UMBRAL_SIMILITUD = 0.35   # por debajo de esto: "No tengo información oficial sobre esa consulta."
-# Punto de partida: es el valor que calibró la cátedra con este mismo modelo de embeddings.
-# Se recalibra con NUESTRO corpus corriendo `python rag.py calibrar` (ver informe, B.2).
+UMBRAL_SIMILITUD = 0.43   # por debajo de esto: "No tengo información oficial sobre esa consulta."
+# Calibrado con NUESTRO corpus (`python rag.py calibrar`, ver informe B.2). Con 0.35 (el valor de la
+# cátedra) pasaban preguntas de afuera del corpus: "¿Puedo tener un perro?" sacaba 0.41. Las de adentro
+# dan 0.46 o más, salvo el olor a gas (0.33), que nunca llega al RAG: lo frena antes el filtro de
+# emergencias. Si se cambia el corpus o el modelo de embeddings, hay que recalibrarlo.
 
 logging.getLogger("chromadb").setLevel(logging.ERROR)
 

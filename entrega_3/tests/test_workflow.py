@@ -8,7 +8,7 @@ import json
 
 import pytest
 
-from ombu.base_conocimiento import cargar_corpus
+from ombu.base_conocimiento import UMBRAL_SIMILITUD, cargar_corpus
 from ombu.config import RAIZ_PROYECTO
 from ombu.rag import SIN_INFORMACION
 from ombu.registro import RegistroReclamos
@@ -24,7 +24,7 @@ class BaseFalsa:
     Las similitudes son fijas por mensaje; el filtro (vigencia y edificio) sí se aplica de verdad.
     La búsqueda con embeddings se prueba en test_rag.py.
     """
-    umbral = 0.35
+    umbral = UMBRAL_SIMILITUD
     SIMILITUDES = {
         LOTE[10]["mensaje"]: {"REG-TIP-OBRAS": 0.62, "REG-CEI-OBRAS": 0.61, "POL-RESP-UNIDAD": 0.40},
         LOTE[11]["mensaje"]: {"POL-PLAZOS-2025": 0.70, "POL-PLAZOS": 0.66, "POL-PRIORIDAD": 0.41},
