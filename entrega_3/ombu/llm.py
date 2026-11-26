@@ -21,7 +21,7 @@ CODIGOS_REINTENTABLES = (429, 503)  # 429: límite de uso · 503: servidor satur
 MODELOS_POR_DEFECTO = {
     "gemini": ("GEMINI_MODEL", "gemini-3.5-flash"),
     "openai": ("OPENAI_MODEL", "gpt-4o-mini"),
-    "groq": ("GROQ_MODEL", "llama-3.3-70b-versatile"),
+    "groq": ("GROQ_MODEL", "openai/gpt-oss-120b"),
 }
 
 
@@ -36,7 +36,7 @@ def _post_json(url: str, payload: dict, headers: dict) -> dict:
     req = urllib.request.Request(
         url,
         data=json.dumps(payload).encode("utf-8"),
-        headers={"Content-Type": "application/json", **headers},
+        headers={"Content-Type": "application/json", "User-Agent": "DAI-Grupo2/1.0", **headers},
     )
     with urllib.request.urlopen(req, context=SSL_CONTEXT, timeout=60) as resp:
         return json.loads(resp.read().decode("utf-8"))

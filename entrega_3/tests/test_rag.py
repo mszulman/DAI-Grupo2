@@ -5,6 +5,7 @@ el filtrado híbrido, el umbral, la simulación y la validación de la respuesta
 La calidad de la búsqueda con el modelo real se mide aparte: `python rag.py calibrar`.
 """
 
+import io
 import urllib.error
 
 import pytest
@@ -145,6 +146,34 @@ def test_si_falla_la_api_no_se_inventa_nada(base, monkeypatch):
     con_llm(monkeypatch, urllib.error.URLError("sin red"))
     r = responder_consulta(PLAZOS, ["TIP1450"], base)
     assert r["estado"] == "NO_VALIDADA" and r["texto"] is None
+
+
+@pytest.mark.parametrize("sin_grounding", [False, True])
+def test_error_http_muestra_codigo_y_mensaje(monkeypatch, sin_grounding):
+    cuerpo = b'{"error":{"message":"invalid API key"}}'
+    error = urllib.error.HTTPError("https://api.example.test", 401, "Unauthorized", {}, io.BytesIO(cuerpo))
+    con_llm(monkeypatch, error)
+
+    if sin_grounding:
+        resultado = rag.responder_sin_grounding("¿Cuánto tardan si se rompe el ascensor?")
+    else:
+        class BaseFalsa:
+            umbral = UMBRAL_PRUEBA
+
+            def buscar(self, *_args, **_kwargs):
+                return [{"codigo": "POL-PLAZOS", "id": "POL-PLAZOS", "titulo": "Plazos de atención",
+                         "texto": "La primera visita se realiza dentro de las 24 horas.",
+                         "similitud": 0.8, "supera_umbral": True}]
+
+        resultado = responder_consulta(PLAZOS, ["TIP1450"], BaseFalsa())
+
+    assert "HTTP 401: invalid API key" in resultado["origen"]
+
+
+def test_error_http_muestra_respuesta_no_json():
+    error = urllib.error.HTTPError("https://api.example.test", 403, "Forbidden", {},
+                                   io.BytesIO(b"Blocked by network gateway"))
+    assert rag._detalle_http(error) == "HTTP 403: Blocked by network gateway"
 
 
 def test_validar_respuesta_acepta_la_negacion_de_una_aprobacion():
