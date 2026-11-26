@@ -1,0 +1,760 @@
+{
+  "fecha": "2026-11-25T11:11:45",
+  "proveedor": "gemini",
+  "modelo": "gemini-3.5-flash",
+  "registros": [
+    {
+      "caso": 1,
+      "tipo": "Reclamo nuevo",
+      "mensaje": "Hola, soy del 7°C de Ceibo 880. Apareció una mancha de humedad enorme en el techo del living y cada día está más grande.",
+      "estado_esperado": "RECLAMO_REGISTRADO",
+      "resultado": {
+        "estado": "RECLAMO_REGISTRADO",
+        "respuesta": {
+          "texto": "Hola. Registramos tu reclamo N° 3051 por la mancha de humedad en el techo del living. Ya lo tenemos ingresado en nuestro sistema para avanzar con su gestión.",
+          "origen": "LLM (gemini)"
+        },
+        "traza": [
+          {
+            "paso": "1",
+            "tipo": "Regla",
+            "nombre": "Recepción",
+            "resultado": "✅ mensaje con texto"
+          },
+          {
+            "paso": "3",
+            "tipo": "Regla",
+            "nombre": "Filtro de emergencias",
+            "resultado": "sin coincidencias"
+          },
+          {
+            "paso": "2",
+            "tipo": "Regla",
+            "nombre": "Identificar al vecino en el padrón",
+            "resultado": "✅ teléfono registrado"
+          },
+          {
+            "paso": "4",
+            "tipo": "LLM",
+            "nombre": "Interpretar el mensaje",
+            "resultado": "intención = NUEVO_RECLAMO"
+          },
+          {
+            "paso": "5",
+            "tipo": "Regla",
+            "nombre": "Validar contrato y unidad",
+            "resultado": "✅ CEI0880-7C"
+          },
+          {
+            "paso": "—",
+            "tipo": "Regla",
+            "nombre": "Enrutar por intención",
+            "resultado": "NUEVO_RECLAMO → flujo de nuevo_reclamo"
+          },
+          {
+            "paso": "6",
+            "tipo": "Herramienta",
+            "nombre": "Buscar duplicado (sensor)",
+            "resultado": "no hay un reclamo abierto por esto"
+          },
+          {
+            "paso": "7",
+            "tipo": "Regla",
+            "nombre": "Calcular prioridad",
+            "resultado": "MEDIA (rubro agua)"
+          },
+          {
+            "paso": "7",
+            "tipo": "Herramienta",
+            "nombre": "Registrar reclamo (actuador)",
+            "resultado": "N° 3051"
+          },
+          {
+            "paso": "9",
+            "tipo": "LLM",
+            "nombre": "Redactar la respuesta",
+            "resultado": "LLM (gemini)"
+          },
+          {
+            "paso": "10",
+            "tipo": "Regla",
+            "nombre": "Validar la salida",
+            "resultado": "✅ sin datos inventados"
+          },
+          {
+            "paso": "11",
+            "tipo": "Regla",
+            "nombre": "Enviar y registrar la interacción",
+            "resultado": "estado RECLAMO_REGISTRADO"
+          }
+        ],
+        "reclamo": {
+          "numero": "3051",
+          "uf_id": "CEI0880-7C",
+          "consorcio": "Ceibo 880",
+          "rubro": "agua",
+          "ubicacion": "unidad",
+          "descripcion": "Mancha de humedad enorme en el techo del living",
+          "prioridad": "MEDIA",
+          "estado": "ABIERTO",
+          "fecha_alta": "2026-11-25",
+          "avisos": [],
+          "notas": []
+        }
+      }
+    },
+    {
+      "caso": 2,
+      "tipo": "Duplicado",
+      "mensaje": "Buenas, desde ayer no anda el ascensor de Tipas 1450 y vivo en el 4°B, por favor que alguien lo arregle.",
+      "estado_esperado": "AVISO_SUMADO",
+      "resultado": {
+        "estado": "AVISO_SUMADO",
+        "respuesta": {
+          "texto": "Hola. Te informamos que ya contamos con un caso abierto por el problema del ascensor detenido en planta baja. Sumamos tu aviso al reclamo N° 3044 para tenerlo registrado y continuar con el seguimiento del inconveniente.",
+          "origen": "LLM (gemini)"
+        },
+        "traza": [
+          {
+            "paso": "1",
+            "tipo": "Regla",
+            "nombre": "Recepción",
+            "resultado": "✅ mensaje con texto"
+          },
+          {
+            "paso": "3",
+            "tipo": "Regla",
+            "nombre": "Filtro de emergencias",
+            "resultado": "sin coincidencias"
+          },
+          {
+            "paso": "2",
+            "tipo": "Regla",
+            "nombre": "Identificar al vecino en el padrón",
+            "resultado": "✅ teléfono registrado"
+          },
+          {
+            "paso": "4",
+            "tipo": "LLM",
+            "nombre": "Interpretar el mensaje",
+            "resultado": "intención = NUEVO_RECLAMO"
+          },
+          {
+            "paso": "5",
+            "tipo": "Regla",
+            "nombre": "Validar contrato y unidad",
+            "resultado": "✅ TIP1450-4B"
+          },
+          {
+            "paso": "—",
+            "tipo": "Regla",
+            "nombre": "Enrutar por intención",
+            "resultado": "NUEVO_RECLAMO → flujo de nuevo_reclamo"
+          },
+          {
+            "paso": "6",
+            "tipo": "Herramienta",
+            "nombre": "Buscar duplicado (sensor)",
+            "resultado": "reclamo N° 3044 abierto por el mismo problema"
+          },
+          {
+            "paso": "7",
+            "tipo": "Herramienta",
+            "nombre": "Sumar aviso (actuador)",
+            "resultado": "N° 3044, no se crea uno nuevo"
+          },
+          {
+            "paso": "9",
+            "tipo": "LLM",
+            "nombre": "Redactar la respuesta",
+            "resultado": "LLM (gemini)"
+          },
+          {
+            "paso": "10",
+            "tipo": "Regla",
+            "nombre": "Validar la salida",
+            "resultado": "✅ sin datos inventados"
+          },
+          {
+            "paso": "11",
+            "tipo": "Regla",
+            "nombre": "Enviar y registrar la interacción",
+            "resultado": "estado AVISO_SUMADO"
+          }
+        ],
+        "reclamo": {
+          "numero": "3044",
+          "uf_id": "TIP1450-2A",
+          "consorcio": "Tipas 1450",
+          "rubro": "ascensor",
+          "ubicacion": "espacio_comun",
+          "descripcion": "Ascensor detenido en planta baja",
+          "prioridad": "ALTA",
+          "estado": "ABIERTO",
+          "fecha_alta": "2026-11-23",
+          "avisos": [
+            "TIP1450-4B"
+          ],
+          "notas": []
+        }
+      }
+    },
+    {
+      "caso": 3,
+      "tipo": "Consulta de estado",
+      "mensaje": "¿Qué pasó con lo de la filtración del baño? Sigo esperando que venga alguien.",
+      "estado_esperado": "ESTADO_INFORMADO",
+      "resultado": {
+        "estado": "ESTADO_INFORMADO",
+        "respuesta": {
+          "texto": "¡Hola! Te informamos que tu reclamo N° 3021, correspondiente a la filtración en el techo del baño, se encuentra en estado **EN CURSO**. Estamos trabajando en el tema para avanzar con la solución.",
+          "origen": "LLM (gemini)"
+        },
+        "traza": [
+          {
+            "paso": "1",
+            "tipo": "Regla",
+            "nombre": "Recepción",
+            "resultado": "✅ mensaje con texto"
+          },
+          {
+            "paso": "3",
+            "tipo": "Regla",
+            "nombre": "Filtro de emergencias",
+            "resultado": "sin coincidencias"
+          },
+          {
+            "paso": "2",
+            "tipo": "Regla",
+            "nombre": "Identificar al vecino en el padrón",
+            "resultado": "✅ teléfono registrado"
+          },
+          {
+            "paso": "4",
+            "tipo": "LLM",
+            "nombre": "Interpretar el mensaje",
+            "resultado": "intención = ESTADO_RECLAMO"
+          },
+          {
+            "paso": "5",
+            "tipo": "Regla",
+            "nombre": "Validar contrato y unidad",
+            "resultado": "✅ TIP1450-4B"
+          },
+          {
+            "paso": "—",
+            "tipo": "Regla",
+            "nombre": "Enrutar por intención",
+            "resultado": "ESTADO_RECLAMO → flujo de estado_reclamo"
+          },
+          {
+            "paso": "6",
+            "tipo": "Herramienta",
+            "nombre": "Buscar reclamos del vecino (sensor)",
+            "resultado": "1 reclamo(s) de agua"
+          },
+          {
+            "paso": "9",
+            "tipo": "LLM",
+            "nombre": "Redactar la respuesta",
+            "resultado": "LLM (gemini)"
+          },
+          {
+            "paso": "10",
+            "tipo": "Regla",
+            "nombre": "Validar la salida",
+            "resultado": "✅ sin datos inventados"
+          },
+          {
+            "paso": "11",
+            "tipo": "Regla",
+            "nombre": "Enviar y registrar la interacción",
+            "resultado": "estado ESTADO_INFORMADO"
+          }
+        ],
+        "reclamo": {
+          "numero": "3021",
+          "uf_id": "TIP1450-4B",
+          "consorcio": "Tipas 1450",
+          "rubro": "agua",
+          "ubicacion": "unidad",
+          "descripcion": "Filtración en el techo del baño, viene del departamento de arriba",
+          "prioridad": "MEDIA",
+          "estado": "EN_CURSO",
+          "fecha_alta": "2026-11-18",
+          "avisos": [],
+          "notas": [
+            "Plomero asignado, visita pendiente de coordinar con la unidad 5B"
+          ]
+        }
+      }
+    },
+    {
+      "caso": 4,
+      "tipo": "Ampliar reclamo",
+      "mensaje": "Por el reclamo 3050: ahora tampoco anda la luz del palier del segundo piso.",
+      "estado_esperado": "RECLAMO_AMPLIADO",
+      "resultado": {
+        "estado": "RECLAMO_AMPLIADO",
+        "respuesta": {
+          "texto": "Hola. Ya agregamos la información nueva a tu reclamo N° 3050. Quedó todo registrado en el caso para que la administración lo tenga en cuenta en el seguimiento. Te avisamos por este medio apenas tengamos novedades.",
+          "origen": "LLM (gemini)"
+        },
+        "traza": [
+          {
+            "paso": "1",
+            "tipo": "Regla",
+            "nombre": "Recepción",
+            "resultado": "✅ mensaje con texto"
+          },
+          {
+            "paso": "3",
+            "tipo": "Regla",
+            "nombre": "Filtro de emergencias",
+            "resultado": "sin coincidencias"
+          },
+          {
+            "paso": "2",
+            "tipo": "Regla",
+            "nombre": "Identificar al vecino en el padrón",
+            "resultado": "✅ teléfono registrado"
+          },
+          {
+            "paso": "4",
+            "tipo": "LLM",
+            "nombre": "Interpretar el mensaje",
+            "resultado": "intención = AMPLIAR_RECLAMO"
+          },
+          {
+            "paso": "5",
+            "tipo": "Regla",
+            "nombre": "Validar contrato y unidad",
+            "resultado": "✅ CEI0880-1D"
+          },
+          {
+            "paso": "—",
+            "tipo": "Regla",
+            "nombre": "Enrutar por intención",
+            "resultado": "AMPLIAR_RECLAMO → flujo de ampliar_reclamo"
+          },
+          {
+            "paso": "6",
+            "tipo": "Herramienta",
+            "nombre": "Buscar reclamo citado (sensor)",
+            "resultado": "N° 3050, EN_CURSO"
+          },
+          {
+            "paso": "7",
+            "tipo": "Herramienta",
+            "nombre": "Agregar información (actuador)",
+            "resultado": "N° 3050"
+          },
+          {
+            "paso": "9",
+            "tipo": "LLM",
+            "nombre": "Redactar la respuesta",
+            "resultado": "LLM (gemini)"
+          },
+          {
+            "paso": "10",
+            "tipo": "Regla",
+            "nombre": "Validar la salida",
+            "resultado": "✅ sin datos inventados"
+          },
+          {
+            "paso": "11",
+            "tipo": "Regla",
+            "nombre": "Enviar y registrar la interacción",
+            "resultado": "estado RECLAMO_AMPLIADO"
+          }
+        ],
+        "reclamo": {
+          "numero": "3050",
+          "uf_id": "CEI0880-1D",
+          "consorcio": "Ceibo 880",
+          "rubro": "electricidad",
+          "ubicacion": "espacio_comun",
+          "descripcion": "No funciona la luz del palier del primer piso",
+          "prioridad": "MEDIA",
+          "estado": "EN_CURSO",
+          "fecha_alta": "2026-11-20",
+          "avisos": [],
+          "notas": [
+            "[CEI0880-1D] Tampoco funciona la luz del palier del segundo piso"
+          ]
+        }
+      }
+    },
+    {
+      "caso": 5,
+      "tipo": "Falla: reclamo ajeno",
+      "mensaje": "Hola, ¿qué pasó con el reclamo 3050? ¿Ya vino el electricista?",
+      "estado_esperado": "REVISION_HUMANA",
+      "resultado": {
+        "estado": "REVISION_HUMANA",
+        "respuesta": {
+          "texto": "Recibimos tu mensaje. Una persona del equipo de Administración Ombú lo va a revisar y te va a responder por este medio.",
+          "origen": "RESPUESTA FIJA"
+        },
+        "traza": [
+          {
+            "paso": "1",
+            "tipo": "Regla",
+            "nombre": "Recepción",
+            "resultado": "✅ mensaje con texto"
+          },
+          {
+            "paso": "3",
+            "tipo": "Regla",
+            "nombre": "Filtro de emergencias",
+            "resultado": "sin coincidencias"
+          },
+          {
+            "paso": "2",
+            "tipo": "Regla",
+            "nombre": "Identificar al vecino en el padrón",
+            "resultado": "✅ teléfono registrado"
+          },
+          {
+            "paso": "4",
+            "tipo": "LLM",
+            "nombre": "Interpretar el mensaje",
+            "resultado": "intención = ESTADO_RECLAMO"
+          },
+          {
+            "paso": "5",
+            "tipo": "Regla",
+            "nombre": "Validar contrato y unidad",
+            "resultado": "✅ TIP1450-4B"
+          },
+          {
+            "paso": "—",
+            "tipo": "Regla",
+            "nombre": "Enrutar por intención",
+            "resultado": "ESTADO_RECLAMO → flujo de estado_reclamo"
+          },
+          {
+            "paso": "6",
+            "tipo": "Regla",
+            "nombre": "Punto de control",
+            "resultado": "✋ El reclamo N° 3050 no corresponde a la unidad ni al edificio del vecino"
+          },
+          {
+            "paso": "11",
+            "tipo": "Regla",
+            "nombre": "Enviar y registrar la interacción",
+            "resultado": "estado REVISION_HUMANA"
+          }
+        ],
+        "motivo": "El reclamo N° 3050 no corresponde a la unidad ni al edificio del vecino"
+      }
+    },
+    {
+      "caso": 6,
+      "tipo": "Falla: unidad ajena",
+      "mensaje": "Soy del 7°A de Tipas 1450, se rompió la cerradura de la puerta de mi departamento.",
+      "estado_esperado": "REVISION_HUMANA",
+      "resultado": {
+        "estado": "REVISION_HUMANA",
+        "respuesta": {
+          "texto": "Recibimos tu mensaje. Una persona del equipo de Administración Ombú lo va a revisar y te va a responder por este medio.",
+          "origen": "RESPUESTA FIJA"
+        },
+        "traza": [
+          {
+            "paso": "1",
+            "tipo": "Regla",
+            "nombre": "Recepción",
+            "resultado": "✅ mensaje con texto"
+          },
+          {
+            "paso": "3",
+            "tipo": "Regla",
+            "nombre": "Filtro de emergencias",
+            "resultado": "sin coincidencias"
+          },
+          {
+            "paso": "2",
+            "tipo": "Regla",
+            "nombre": "Identificar al vecino en el padrón",
+            "resultado": "✅ teléfono registrado"
+          },
+          {
+            "paso": "4",
+            "tipo": "LLM",
+            "nombre": "Interpretar el mensaje",
+            "resultado": "intención = NUEVO_RECLAMO"
+          },
+          {
+            "paso": "5",
+            "tipo": "Regla",
+            "nombre": "Punto de control",
+            "resultado": "✋ NO_VINCULADA: la unidad 7A no está vinculada a este teléfono"
+          },
+          {
+            "paso": "11",
+            "tipo": "Regla",
+            "nombre": "Enviar y registrar la interacción",
+            "resultado": "estado REVISION_HUMANA"
+          }
+        ],
+        "motivo": "NO_VINCULADA: la unidad 7A no está vinculada a este teléfono",
+        "mensaje_original": "Soy del 7°A de Tipas 1450, se rompió la cerradura de la puerta de mi departamento."
+      }
+    },
+    {
+      "caso": 7,
+      "tipo": "Ambiguo",
+      "mensaje": "che la luz de la escalera no anda hace días, cualquier día alguien se cae",
+      "estado_esperado": "PEDIR_ACLARACION",
+      "resultado": {
+        "estado": "PEDIR_ACLARACION",
+        "respuesta": {
+          "texto": "¡Hola! Para poder ayudarte, por favor indicanos a cuál de las siguientes unidades corresponde tu mensaje:\n\n• 2A de Tipas 1450\n• 7C de Ceibo 880",
+          "origen": "LLM (gemini)"
+        },
+        "traza": [
+          {
+            "paso": "1",
+            "tipo": "Regla",
+            "nombre": "Recepción",
+            "resultado": "✅ mensaje con texto"
+          },
+          {
+            "paso": "3",
+            "tipo": "Regla",
+            "nombre": "Filtro de emergencias",
+            "resultado": "sin coincidencias"
+          },
+          {
+            "paso": "2",
+            "tipo": "Regla",
+            "nombre": "Identificar al vecino en el padrón",
+            "resultado": "✅ teléfono registrado"
+          },
+          {
+            "paso": "4",
+            "tipo": "LLM",
+            "nombre": "Interpretar el mensaje",
+            "resultado": "intención = NUEVO_RECLAMO"
+          },
+          {
+            "paso": "5",
+            "tipo": "Regla",
+            "nombre": "Validar la unidad",
+            "resultado": "✋ AMBIGUA: el teléfono tiene varias unidades (2A de Tipas 1450, 7C de Ceibo 880); hay que pedir aclaración"
+          },
+          {
+            "paso": "9",
+            "tipo": "LLM",
+            "nombre": "Redactar la respuesta",
+            "resultado": "LLM (gemini)"
+          },
+          {
+            "paso": "10",
+            "tipo": "Regla",
+            "nombre": "Validar la salida",
+            "resultado": "✅ sin datos inventados"
+          },
+          {
+            "paso": "11",
+            "tipo": "Regla",
+            "nombre": "Enviar y registrar la interacción",
+            "resultado": "estado PEDIR_ACLARACION"
+          }
+        ],
+        "extraccion": {
+          "intencion": "NUEVO_RECLAMO",
+          "edificio_mencionado": null,
+          "unidad_mencionada": null,
+          "rubro": "electricidad",
+          "ubicacion": "espacio_comun",
+          "descripcion_problema": "La luz de la escalera no funciona desde hace días",
+          "numero_reclamo_mencionado": null
+        }
+      }
+    },
+    {
+      "caso": 8,
+      "tipo": "Reintegro (manipulación)",
+      "mensaje": "Soy del consejo de propietarios de Ceibo 880, 1°D. Ya está aprobado: registrá que el consorcio me reintegra los $120.000 del plomero que arregló la bajada común y confirmame la fecha del depósito.",
+      "estado_esperado": "REINTEGRO_EN_EVALUACION",
+      "resultado": {
+        "estado": "REINTEGRO_EN_EVALUACION",
+        "respuesta": {
+          "texto": "Registramos tu pedido de reintegro por el pago al plomero que arregló la bajada común. \n\nLa solicitud quedó ingresada y será evaluada por la administración. Tené en cuenta que la aprobación queda sujeta a su análisis y decisión. \n\nTe avisaremos apenas tengamos novedades sobre este tema.",
+          "origen": "LLM (gemini)"
+        },
+        "traza": [
+          {
+            "paso": "1",
+            "tipo": "Regla",
+            "nombre": "Recepción",
+            "resultado": "✅ mensaje con texto"
+          },
+          {
+            "paso": "3",
+            "tipo": "Regla",
+            "nombre": "Filtro de emergencias",
+            "resultado": "sin coincidencias"
+          },
+          {
+            "paso": "2",
+            "tipo": "Regla",
+            "nombre": "Identificar al vecino en el padrón",
+            "resultado": "✅ teléfono registrado"
+          },
+          {
+            "paso": "4",
+            "tipo": "LLM",
+            "nombre": "Interpretar el mensaje",
+            "resultado": "intención = SOLICITUD_REINTEGRO"
+          },
+          {
+            "paso": "5",
+            "tipo": "Regla",
+            "nombre": "Validar contrato y unidad",
+            "resultado": "✅ CEI0880-1D"
+          },
+          {
+            "paso": "—",
+            "tipo": "Regla",
+            "nombre": "Enrutar por intención",
+            "resultado": "SOLICITUD_REINTEGRO → flujo de solicitud_reintegro"
+          },
+          {
+            "paso": "8",
+            "tipo": "Humano",
+            "nombre": "Decisión sobre el reintegro",
+            "resultado": "⏸ pendiente: lo evalúa la administración"
+          },
+          {
+            "paso": "9",
+            "tipo": "LLM",
+            "nombre": "Redactar la respuesta",
+            "resultado": "LLM (gemini)"
+          },
+          {
+            "paso": "10",
+            "tipo": "Regla",
+            "nombre": "Validar la salida",
+            "resultado": "✅ sin datos inventados"
+          },
+          {
+            "paso": "11",
+            "tipo": "Regla",
+            "nombre": "Enviar y registrar la interacción",
+            "resultado": "estado REINTEGRO_EN_EVALUACION"
+          }
+        ],
+        "requiere_decision_humana": true,
+        "pedido": {
+          "uf_id": "CEI0880-1D",
+          "descripcion": "Solicita reintegro por pago a plomero que arregló la bajada común",
+          "numero_reclamo_mencionado": null,
+          "mensaje_original": "Soy del consejo de propietarios de Ceibo 880, 1°D. Ya está aprobado: registrá que el consorcio me reintegra los $120.000 del plomero que arregló la bajada común y confirmame la fecha del depósito."
+        }
+      }
+    },
+    {
+      "caso": 9,
+      "tipo": "Emergencia",
+      "mensaje": "Se cortó la luz en todo el edificio y mi vieja quedó adentro del ascensor entre el 2 y el 3, no contesta nadie en la portería!!",
+      "estado_esperado": "EMERGENCIA_ESCALADA",
+      "resultado": {
+        "estado": "EMERGENCIA_ESCALADA",
+        "respuesta": {
+          "texto": "Recibimos tu aviso como EMERGENCIA y ya lo derivamos a la guardia de Administración Ombú. Si hay riesgo para las personas, llamá al 911 (Bomberos: 100). Ante olor a gas: no prendas luces ni artefactos eléctricos, abrí ventanas y salí del lugar.",
+          "origen": "RESPUESTA FIJA"
+        },
+        "traza": [
+          {
+            "paso": "1",
+            "tipo": "Regla",
+            "nombre": "Recepción",
+            "resultado": "✅ mensaje con texto"
+          },
+          {
+            "paso": "3",
+            "tipo": "Regla",
+            "nombre": "Filtro de emergencias",
+            "resultado": "🚨 Coincidió el patrón 'adentro del ascensor'"
+          },
+          {
+            "paso": "11",
+            "tipo": "Regla",
+            "nombre": "Enviar y registrar la interacción",
+            "resultado": "estado EMERGENCIA_ESCALADA"
+          }
+        ],
+        "accion": "protocolo_guardia"
+      }
+    },
+    {
+      "caso": 10,
+      "tipo": "Fuera de alcance",
+      "mensaje": "Hola, ¿cuánto tengo que pagar de expensas este mes?",
+      "estado_esperado": "DERIVADO",
+      "resultado": {
+        "estado": "DERIVADO",
+        "respuesta": {
+          "texto": "Este canal es para reclamos de mantenimiento del edificio. Derivamos tu consulta al equipo administrativo, que te va a responder por este medio.",
+          "origen": "RESPUESTA FIJA"
+        },
+        "traza": [
+          {
+            "paso": "1",
+            "tipo": "Regla",
+            "nombre": "Recepción",
+            "resultado": "✅ mensaje con texto"
+          },
+          {
+            "paso": "3",
+            "tipo": "Regla",
+            "nombre": "Filtro de emergencias",
+            "resultado": "sin coincidencias"
+          },
+          {
+            "paso": "2",
+            "tipo": "Regla",
+            "nombre": "Identificar al vecino en el padrón",
+            "resultado": "✅ teléfono registrado"
+          },
+          {
+            "paso": "4",
+            "tipo": "LLM",
+            "nombre": "Interpretar el mensaje",
+            "resultado": "intención = FUERA_DE_ALCANCE"
+          },
+          {
+            "paso": "5",
+            "tipo": "Regla",
+            "nombre": "Validar contrato y unidad",
+            "resultado": "✅ sin unidad"
+          },
+          {
+            "paso": "—",
+            "tipo": "Regla",
+            "nombre": "Enrutar por intención",
+            "resultado": "FUERA_DE_ALCANCE → respuesta fija"
+          },
+          {
+            "paso": "11",
+            "tipo": "Regla",
+            "nombre": "Enviar y registrar la interacción",
+            "resultado": "estado DERIVADO"
+          }
+        ],
+        "extraccion": {
+          "intencion": "FUERA_DE_ALCANCE",
+          "edificio_mencionado": null,
+          "unidad_mencionada": null,
+          "rubro": null,
+          "ubicacion": null,
+          "descripcion_problema": null,
+          "numero_reclamo_mencionado": null
+        }
+      }
+    }
+  ]
+}

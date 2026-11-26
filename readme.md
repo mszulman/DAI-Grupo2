@@ -17,5 +17,5 @@ TP Integrador — Microcredencial #2: Diseño de Aplicaciones Inteligentes (Inst
 |---|---|---|
 | [Entrega 1](entrega_1/informe.md) | Diagnóstico y concepto de solución (con [adenda de alcance](entrega_1/informe.md#adenda--cambio-de-alcance-vigente-desde-la-entrega-2)) | Completo |
 | [Entrega 2](entrega_2/informe.md) | Prompt versionado + API real + JSON validado ([resultados del lote](entrega_2/resultados_lote.md)) | Completo |
-| [Entrega 3](entrega_3/informe.md) | Workflow encadenado + RAG + agente | En curso (Parte A, Hito 1: completa) |
+| [Entrega 3](entrega_3/informe.md) | Workflow encadenado + RAG + agente | En curso (Partes A y B completas; falta la C, Hito 2) |
 | Entrega 4 | Integración, guardrails y ficha de riesgos | — |
