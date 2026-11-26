@@ -17,7 +17,7 @@ import json
 import urllib.error
 
 from .config import RAIZ_PROYECTO, detectar_proveedor
-from .llm import llamar_con_reintentos
+from .llm import describir_error_http, llamar_con_reintentos
 from .reglas import validar_salida
 
 PROMPT_REDACCION = "redaccion_v1"
@@ -63,6 +63,8 @@ def redactar_respuesta(resultado: dict) -> dict:
     usuario = f"<resultado>\n{json.dumps(resultado, ensure_ascii=False, indent=2)}\n</resultado>"
     try:
         texto = llamar_con_reintentos(system, usuario, nombre, key, json_mode=False, temperatura=0.3).strip()
+    except urllib.error.HTTPError as e:
+        return {"texto": plantilla_fija(resultado), "origen": f"PLANTILLA (falló la API: {describir_error_http(e)})"}
     except (urllib.error.URLError, TimeoutError, KeyError, IndexError) as e:
         return {"texto": plantilla_fija(resultado), "origen": f"PLANTILLA (falló la API: {type(e).__name__})"}
 

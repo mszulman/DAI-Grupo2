@@ -13,6 +13,7 @@ from embeddings_prueba import EmbeddingsDePrueba
 
 from ombu import rag
 from ombu.base_conocimiento import BaseConocimiento, cargar_corpus, codigo_edificio, filtro_para
+from ombu.llm import describir_error_http
 from ombu.rag import SIN_INFORMACION, responder_consulta, validar_respuesta_rag
 
 UMBRAL_PRUEBA = 0.25      # el de juguete da similitudes más bajas que el modelo real
@@ -173,7 +174,7 @@ def test_error_http_muestra_codigo_y_mensaje(monkeypatch, sin_grounding):
 def test_error_http_muestra_respuesta_no_json():
     error = urllib.error.HTTPError("https://api.example.test", 403, "Forbidden", {},
                                    io.BytesIO(b"Blocked by network gateway"))
-    assert rag._detalle_http(error) == "HTTP 403: Blocked by network gateway"
+    assert describir_error_http(error).startswith("HTTP 403: Blocked by network gateway — ")
 
 
 def test_validar_respuesta_acepta_la_negacion_de_una_aprobacion():

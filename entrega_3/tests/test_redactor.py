@@ -97,6 +97,18 @@ def test_si_la_api_falla_se_usa_la_plantilla(con_api):
     assert r["origen"].startswith("PLANTILLA (falló la API") and "3021" in r["texto"]
 
 
+def test_si_la_api_responde_un_error_http_se_ve_el_codigo_y_la_pista(con_api):
+    import io
+
+    def falla(*a, **k):
+        raise urllib.error.HTTPError("https://api", 429, "Too Many Requests", {},
+                                     io.BytesIO(b'{"error": {"message": "Rate limit reached"}}'))
+    con_api.setattr(redactor, "llamar_con_reintentos", falla)
+    r = redactor.redactar_respuesta(RESULTADOS[3])
+    assert "HTTP 429: Rate limit reached — límite de uso" in r["origen"] and "3021" in r["texto"]
+    assert "clave-de-prueba" not in r["origen"]
+
+
 def test_el_redactor_pide_texto_libre_y_no_json(con_api):
     capturado = {}
 

@@ -24,7 +24,7 @@ from pydantic import ValidationError
 
 from .config import RAIZ_PROYECTO, detectar_proveedor
 from .contrato import ExtraccionReclamo
-from .llm import llamar_con_reintentos
+from .llm import describir_error_http, llamar_con_reintentos
 from .reglas import RESPUESTA_EMERGENCIA, detectar_emergencia, identificar_remitente, resolver_unidad
 
 PROMPT_VERSION = "v2"   # v2 suma CONSULTA_REGLAMENTO (Parte B); v1 queda para comparar
@@ -50,27 +50,6 @@ def cargar_prompt(version: str = PROMPT_VERSION) -> str:
 def armar_mensaje_usuario(mensaje: str) -> str:
     """Delimita el mensaje del vecino para que el modelo lo trate como dato, no como instrucción."""
     return f"Mensaje del vecino (entre <mensaje> y </mensaje>):\n<mensaje>\n{mensaje.strip()}\n</mensaje>"
-
-
-PISTAS_HTTP = {
-    400: "pedido rechazado: revisá que la API key esté bien copiada en el .env",
-    401: "API key inválida",
-    403: "API key sin permiso o API no habilitada para esa cuenta",
-    404: "el modelo no existe o fue retirado: corré `python listar_modelos.py` y cambiá GEMINI_MODEL en el .env",
-    429: "límite de uso de la capa gratuita: esperá un minuto o subí PAUSA_SEGUNDOS en el .env",
-    503: "servidor saturado: probá de nuevo en unos minutos",
-}
-
-
-def motivo_http(e: urllib.error.HTTPError) -> str:
-    """Mensaje del proveedor (sin la key) + una pista de qué hacer."""
-    try:
-        cuerpo = json.loads(e.read().decode("utf-8", "replace"))
-        mensaje = cuerpo.get("error", {}).get("message", "")
-    except (ValueError, AttributeError, OSError):
-        mensaje = ""
-    pista = PISTAS_HTTP.get(e.code, "")
-    return " — ".join(p for p in (mensaje[:300], pista) if p) or str(e)
 
 
 def escalar_emergencia(motivo: str) -> dict:
@@ -153,7 +132,7 @@ def procesar_mensaje(mensaje: str, telefono: str, simulacion: Optional[str] = No
         except urllib.error.HTTPError as e:
             # El proveedor respondió con un error: key inválida, límite de uso, modelo inexistente...
             return {"origen": origen, "ok": False, "error": "COMUNICACION",
-                    "detalle": f"HTTP {e.code}: {motivo_http(e)}"}
+                    "detalle": describir_error_http(e)}
         except (urllib.error.URLError, TimeoutError, KeyError, IndexError) as e:
             # No llegó a responder (sin red, certificado, timeout) o la respuesta vino vacía.
             return {"origen": origen, "ok": False, "error": "COMUNICACION", "detalle": f"{type(e).__name__}: {e}"}

@@ -16,14 +16,13 @@ RECUPERAR el contexto. Sin API key, la generación es una SIMULACIÓN (devuelve 
 recuperado tal cual); la recuperación (embeddings, filtro y umbral) corre de verdad igual.
 """
 
-import json
 import re
 import urllib.error
 from typing import Optional
 
 from .base_conocimiento import K, BaseConocimiento, base_por_defecto, filtro_para
 from .config import RAIZ_PROYECTO, detectar_proveedor
-from .llm import llamar_con_reintentos
+from .llm import describir_error_http, llamar_con_reintentos
 from .reglas import normalizar_texto
 
 SIN_INFORMACION = "No tengo información oficial sobre esa consulta."
@@ -39,19 +38,6 @@ PATRONES_PROHIBIDOS = [
 
 def _leer_prompt(nombre: str) -> str:
     return (RAIZ_PROYECTO / "prompts" / f"{nombre}.txt").read_text(encoding="utf-8")
-
-
-def _detalle_http(error: urllib.error.HTTPError) -> str:
-    cuerpo = error.read().decode("utf-8", "replace")
-    try:
-        datos = json.loads(cuerpo)
-        detalle = datos.get("error", {}).get("message", "")
-    except (ValueError, AttributeError, OSError, TypeError):
-        detalle = ""
-    if not isinstance(detalle, str) or not detalle:
-        detalle = re.sub(r"\s+", " ", cuerpo).strip() or str(error.reason)
-    detalle = detalle[:300]
-    return f"HTTP {error.code}: {detalle}"
 
 
 def formatear_contexto(usados: list[dict]) -> str:
@@ -124,7 +110,7 @@ def responder_consulta(pregunta: str, edificios: Optional[list[str]],
                                           nombre, key, json_mode=False, temperatura=0).strip()
         except urllib.error.HTTPError as e:
             return {**salida, "estado": "NO_VALIDADA", "texto": None,
-                    "origen": f"falló el LLM ({_detalle_http(e)})"}
+                    "origen": f"falló el LLM ({describir_error_http(e)})"}
         except (urllib.error.URLError, TimeoutError, KeyError, IndexError) as e:
             return {**salida, "estado": "NO_VALIDADA", "texto": None, "origen": f"falló el LLM ({type(e).__name__})"}
         origen = f"LLM ({nombre})"
@@ -154,6 +140,6 @@ def responder_sin_grounding(pregunta: str) -> Optional[dict]:
                                       json_mode=False, temperatura=0)
         return {"texto": texto.strip(), "origen": f"LLM ({nombre}), sin contexto"}
     except urllib.error.HTTPError as e:
-        return {"texto": None, "origen": f"falló el LLM ({_detalle_http(e)})"}
+        return {"texto": None, "origen": f"falló el LLM ({describir_error_http(e)})"}
     except (urllib.error.URLError, TimeoutError, KeyError, IndexError) as e:
         return {"texto": None, "origen": f"falló el LLM ({type(e).__name__})"}

@@ -8,6 +8,7 @@ sistema no depende de cuál se use.
 
 import json
 import os
+import re
 import time
 import urllib.error
 import urllib.request
@@ -16,6 +17,37 @@ from .config import SSL_CONTEXT
 
 REINTENTOS = 3
 CODIGOS_REINTENTABLES = (429, 503)  # 429: límite de uso · 503: servidor saturado
+
+
+# Qué hacer ante cada error HTTP. Se muestra junto con el mensaje del proveedor (que nunca trae la key).
+PISTAS_HTTP = {
+    400: "pedido rechazado: revisá que la API key esté bien copiada en el .env",
+    401: "API key inválida",
+    403: "API key sin permiso, API no habilitada para esa cuenta, o el proveedor rechazó el cliente (con Groq: User-Agent)",
+    404: "el modelo no existe o fue retirado: corré `python listar_modelos.py` y cambiá el modelo en el .env",
+    429: "límite de uso de la capa gratuita: esperá un minuto o subí PAUSA_SEGUNDOS en el .env",
+    503: "servidor saturado: probá de nuevo en unos minutos",
+}
+
+
+def describir_error_http(e: urllib.error.HTTPError) -> str:
+    """
+    "HTTP 401: <mensaje del proveedor> — <pista>". La usan el extractor, el redactor y el RAG.
+    Si el cuerpo no es JSON (por ejemplo, una página de error de un proxy), se muestra el texto.
+    """
+    try:
+        cuerpo = e.read().decode("utf-8", "replace")
+    except (OSError, AttributeError):
+        cuerpo = ""
+    try:
+        error = json.loads(cuerpo).get("error", {})
+        mensaje = error.get("message", "") if isinstance(error, dict) else str(error)
+    except (ValueError, AttributeError, TypeError):
+        mensaje = ""
+    if not isinstance(mensaje, str) or not mensaje:
+        mensaje = re.sub(r"\s+", " ", cuerpo).strip() or str(e.reason)
+    pista = PISTAS_HTTP.get(e.code, "")
+    return f"HTTP {e.code}: " + " — ".join(p for p in (mensaje[:300], pista) if p)
 
 
 MODELOS_POR_DEFECTO = {
