@@ -1,0 +1,148 @@
+{
+  "fecha": "2026-11-26T14:19:06",
+  "proveedor": "groq",
+  "modelo": "openai/gpt-oss-120b",
+  "embeddings": "jinaai/jina-embeddings-v2-base-es",
+  "umbral": 0.35,
+  "k": 3,
+  "preguntas": [
+    {
+      "pregunta": "¿Cuánto tardan en venir si se rompe el ascensor?",
+      "edificio": "TIP1450",
+      "que_mirar": "El plazo es una política de Ombú: un modelo sin contexto no puede conocerlo. La vigente (POL-PLAZOS) da 24 horas para prioridad ALTA; la versión reemplazada decía 48.",
+      "sin_grounding": {
+        "texto": "Si el ascensor se rompe, lo consideramos una urgencia. Envíamos al técnico en un plazo de 2 horas hábiles; si la avería impide el uso, el equipo llega antes de 24 horas. Te mantendremos informado del avance y, en caso de demoras, coordinaremos una solución provisional. Cualquier consulta, llamá al 0800‑123‑456.",
+        "origen": "LLM (groq), sin contexto"
+      },
+      "con_rag": {
+        "fuentes": [
+          "POL-PLAZOS"
+        ],
+        "candidatos": [
+          [
+            "POL-PLAZOS",
+            0.48,
+            true
+          ],
+          [
+            "POL-FILTRACIONES",
+            0.31,
+            false
+          ],
+          [
+            "POL-CANAL",
+            0.31,
+            false
+          ]
+        ],
+        "estado": "SIN_INFORMACION",
+        "texto": "No tengo información oficial sobre esa consulta.",
+        "origen": "LLM (groq) · el contexto recuperado no responde la consulta"
+      }
+    },
+    {
+      "pregunta": "Si llamo yo a un plomero por un problema del edificio, ¿me devuelven la plata?",
+      "edificio": "CEI0880",
+      "que_mirar": "POL-REINTEGRO vigente: solo con reclamo previo, si es una parte común, con factura y con decisión de la administración. La versión reemplazada decía que alcanzaba con mandar el ticket: es la que el filtro tiene que dejar afuera.",
+      "sin_grounding": {
+        "texto": "No, la administración no reembolsa los gastos que contrates por tu cuenta. Para que el costo sea cubierto debés solicitar la intervención del edificio y que el admin autorice al plomero oficial o a un profesional aprobado. Si el daño es tuyo o de tu unidad, el gasto corre por vos. En caso contrario, el admin gestiona la reparación.",
+        "origen": "LLM (groq), sin contexto"
+      },
+      "con_rag": {
+        "fuentes": [
+          "POL-REINTEGRO",
+          "POL-FILTRACIONES",
+          "POL-CANAL"
+        ],
+        "candidatos": [
+          [
+            "POL-REINTEGRO",
+            0.64,
+            true
+          ],
+          [
+            "POL-FILTRACIONES",
+            0.53,
+            true
+          ],
+          [
+            "POL-CANAL",
+            0.48,
+            true
+          ]
+        ],
+        "estado": "RESPONDIDA",
+        "texto": "Solo si se cumplen todas las condiciones del reintegro: tenés que haber registrado el reclamo antes del arreglo con su número, la reparación debe ser de una parte común y debés presentar la factura. La administración lo evalúa y lo decide, no es automático. (POL-REINTEGRO)",
+        "origen": "LLM (groq)"
+      }
+    },
+    {
+      "pregunta": "¿Puedo hacer venir al albañil un sábado?",
+      "edificio": "CEI0880",
+      "que_mirar": "Depende del edificio: en Ceibo 880 sí, de 9 a 13 (REG-CEI-OBRAS); en Tipas 1450 no (REG-TIP-OBRAS). Sin contexto, el modelo no puede saberlo.",
+      "sin_grounding": {
+        "texto": "No, los trabajos de obra no pueden realizarse los sábados sin autorización previa. Necesitamos que nos avises con al menos 48 hs de antelación, indicando la hora y la duración estimada, y que el albañil respete los horarios de silencio (de 22 hs a 8 hs). Con la autorización escrita, podemos autorizarlo.",
+        "origen": "LLM (groq), sin contexto"
+      },
+      "con_rag": {
+        "fuentes": [
+          "REG-CEI-OBRAS"
+        ],
+        "candidatos": [
+          [
+            "REG-CEI-OBRAS",
+            0.46,
+            true
+          ],
+          [
+            "POL-INQUILINOS",
+            0.25,
+            false
+          ],
+          [
+            "POL-REINTEGRO",
+            0.24,
+            false
+          ]
+        ],
+        "estado": "RESPONDIDA",
+        "texto": "Sí, podés hacer venir al albañil los sábados, pero solo entre las 9 y las 13 horas. (REG-CEI-OBRAS)",
+        "origen": "LLM (groq)"
+      }
+    },
+    {
+      "pregunta": "¿Puedo tener un perro en el departamento?",
+      "edificio": "TIP1450",
+      "que_mirar": "Fuera del corpus (caso Destacado): ni las políticas ni los reglamentos hablan de mascotas. Con RAG tiene que responder 'No tengo información oficial sobre esa consulta.'",
+      "sin_grounding": {
+        "texto": "Depende de lo que diga el reglamento interno del consorcio. En la mayoría de edificios se permite un perro de raza pequeña o mediana, siempre que no cause molestias y esté registrado. Necesitás presentar la solicitud a la administración y, si corresponde, obtener la aprobación de la asamblea. Si el reglamento lo prohíbe, no se permite. Consultá el reglamento o pedí información a la oficina.",
+        "origen": "LLM (groq), sin contexto"
+      },
+      "con_rag": {
+        "fuentes": [
+          "POL-INQUILINOS"
+        ],
+        "candidatos": [
+          [
+            "POL-INQUILINOS",
+            0.41,
+            true
+          ],
+          [
+            "POL-RESP-UNIDAD",
+            0.34,
+            false
+          ],
+          [
+            "REG-TIP-OBRAS",
+            0.29,
+            false
+          ]
+        ],
+        "estado": "SIN_INFORMACION",
+        "texto": "No tengo información oficial sobre esa consulta.",
+        "origen": "LLM (groq) · el contexto recuperado no responde la consulta"
+      }
+    }
+  ]
+}

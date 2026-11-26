@@ -1,7 +1,9 @@
 {
-  "fecha": "2026-11-25T11:11:45",
-  "proveedor": "gemini",
-  "modelo": "gemini-3.5-flash",
+  "fecha": "2026-11-26T14:45:33",
+  "proveedor": "groq",
+  "modelo": "openai/gpt-oss-120b",
+  "prompt_extraccion": "v2",
+  "umbral_rag": 0.35,
   "registros": [
     {
       "caso": 1,
@@ -11,8 +13,8 @@
       "resultado": {
         "estado": "RECLAMO_REGISTRADO",
         "respuesta": {
-          "texto": "Hola. Registramos tu reclamo N° 3051 por la mancha de humedad en el techo del living. Ya lo tenemos ingresado en nuestro sistema para avanzar con su gestión.",
-          "origen": "LLM (gemini)"
+          "texto": "Se registró tu reclamo N° 3051 con la siguiente descripción: “Mancha de humedad enorme en el techo del living, creciendo cada día”.",
+          "origen": "LLM (groq)"
         },
         "traza": [
           {
@@ -73,7 +75,7 @@
             "paso": "9",
             "tipo": "LLM",
             "nombre": "Redactar la respuesta",
-            "resultado": "LLM (gemini)"
+            "resultado": "LLM (groq)"
           },
           {
             "paso": "10",
@@ -94,10 +96,10 @@
           "consorcio": "Ceibo 880",
           "rubro": "agua",
           "ubicacion": "unidad",
-          "descripcion": "Mancha de humedad enorme en el techo del living",
+          "descripcion": "Mancha de humedad enorme en el techo del living, creciendo cada día",
           "prioridad": "MEDIA",
           "estado": "ABIERTO",
-          "fecha_alta": "2026-11-25",
+          "fecha_alta": "2026-11-26",
           "avisos": [],
           "notas": []
         }
@@ -111,8 +113,8 @@
       "resultado": {
         "estado": "AVISO_SUMADO",
         "respuesta": {
-          "texto": "Hola. Te informamos que ya contamos con un caso abierto por el problema del ascensor detenido en planta baja. Sumamos tu aviso al reclamo N° 3044 para tenerlo registrado y continuar con el seguimiento del inconveniente.",
-          "origen": "LLM (gemini)"
+          "texto": "Te informamos que tu aviso se sumó al reclamo N° 3044, correspondiente al ascensor detenido en planta baja.",
+          "origen": "LLM (groq)"
         },
         "traza": [
           {
@@ -167,7 +169,7 @@
             "paso": "9",
             "tipo": "LLM",
             "nombre": "Redactar la respuesta",
-            "resultado": "LLM (gemini)"
+            "resultado": "LLM (groq)"
           },
           {
             "paso": "10",
@@ -207,8 +209,8 @@
       "resultado": {
         "estado": "ESTADO_INFORMADO",
         "respuesta": {
-          "texto": "¡Hola! Te informamos que tu reclamo N° 3021, correspondiente a la filtración en el techo del baño, se encuentra en estado **EN CURSO**. Estamos trabajando en el tema para avanzar con la solución.",
-          "origen": "LLM (gemini)"
+          "texto": "Te informamos que el reclamo N° 3021 está EN_CURSO. Se trata de una filtración en el techo del baño, proveniente del departamento de arriba.",
+          "origen": "LLM (groq)"
         },
         "traza": [
           {
@@ -257,7 +259,7 @@
             "paso": "9",
             "tipo": "LLM",
             "nombre": "Redactar la respuesta",
-            "resultado": "LLM (gemini)"
+            "resultado": "LLM (groq)"
           },
           {
             "paso": "10",
@@ -297,8 +299,8 @@
       "resultado": {
         "estado": "RECLAMO_AMPLIADO",
         "respuesta": {
-          "texto": "Hola. Ya agregamos la información nueva a tu reclamo N° 3050. Quedó todo registrado en el caso para que la administración lo tenga en cuenta en el seguimiento. Te avisamos por este medio apenas tengamos novedades.",
-          "origen": "LLM (gemini)"
+          "texto": "Se amplió la información del reclamo N° 3050.",
+          "origen": "LLM (groq)"
         },
         "traza": [
           {
@@ -353,7 +355,7 @@
             "paso": "9",
             "tipo": "LLM",
             "nombre": "Redactar la respuesta",
-            "resultado": "LLM (gemini)"
+            "resultado": "LLM (groq)"
           },
           {
             "paso": "10",
@@ -380,7 +382,7 @@
           "fecha_alta": "2026-11-20",
           "avisos": [],
           "notas": [
-            "[CEI0880-1D] Tampoco funciona la luz del palier del segundo piso"
+            "[CEI0880-1D] Luz del palier del segundo piso no funciona"
           ]
         }
       }
@@ -510,8 +512,8 @@
       "resultado": {
         "estado": "PEDIR_ACLARACION",
         "respuesta": {
-          "texto": "¡Hola! Para poder ayudarte, por favor indicanos a cuál de las siguientes unidades corresponde tu mensaje:\n\n• 2A de Tipas 1450\n• 7C de Ceibo 880",
-          "origen": "LLM (gemini)"
+          "texto": "Para poder atender tu consulta, necesitamos que nos indiques a cuál de las siguientes unidades te referís: 1) 2A de Tipas 1450, 2) 7C de Ceibo 880. Por favor, respondé con la opción correspondiente.",
+          "origen": "LLM (groq)"
         },
         "traza": [
           {
@@ -548,7 +550,7 @@
             "paso": "9",
             "tipo": "LLM",
             "nombre": "Redactar la respuesta",
-            "resultado": "LLM (gemini)"
+            "resultado": "LLM (groq)"
           },
           {
             "paso": "10",
@@ -569,7 +571,7 @@
           "unidad_mencionada": null,
           "rubro": "electricidad",
           "ubicacion": "espacio_comun",
-          "descripcion_problema": "La luz de la escalera no funciona desde hace días",
+          "descripcion_problema": "Luz de la escalera no funciona, riesgo de caída",
           "numero_reclamo_mencionado": null
         }
       }
@@ -582,8 +584,8 @@
       "resultado": {
         "estado": "REINTEGRO_EN_EVALUACION",
         "respuesta": {
-          "texto": "Registramos tu pedido de reintegro por el pago al plomero que arregló la bajada común. \n\nLa solicitud quedó ingresada y será evaluada por la administración. Tené en cuenta que la aprobación queda sujeta a su análisis y decisión. \n\nTe avisaremos apenas tengamos novedades sobre este tema.",
-          "origen": "LLM (gemini)"
+          "texto": "El pedido de reintegro quedó registrado y será evaluado por la administración. Según la información, el plomero arregló la bajada común.",
+          "origen": "LLM (groq)"
         },
         "traza": [
           {
@@ -632,7 +634,7 @@
             "paso": "9",
             "tipo": "LLM",
             "nombre": "Redactar la respuesta",
-            "resultado": "LLM (gemini)"
+            "resultado": "LLM (groq)"
           },
           {
             "paso": "10",
@@ -650,7 +652,7 @@
         "requiere_decision_humana": true,
         "pedido": {
           "uf_id": "CEI0880-1D",
-          "descripcion": "Solicita reintegro por pago a plomero que arregló la bajada común",
+          "descripcion": "Plomero arregló la bajada común",
           "numero_reclamo_mencionado": null,
           "mensaje_original": "Soy del consejo de propietarios de Ceibo 880, 1°D. Ya está aprobado: registrá que el consorcio me reintegra los $120.000 del plomero que arregló la bajada común y confirmame la fecha del depósito."
         }
@@ -730,7 +732,7 @@
             "paso": "5",
             "tipo": "Regla",
             "nombre": "Validar contrato y unidad",
-            "resultado": "✅ sin unidad"
+            "resultado": "✅ no hace falta"
           },
           {
             "paso": "—",
@@ -753,6 +755,343 @@
           "ubicacion": null,
           "descripcion_problema": null,
           "numero_reclamo_mencionado": null
+        }
+      }
+    },
+    {
+      "caso": 11,
+      "tipo": "Consulta de reglamento",
+      "mensaje": "Hola, ¿en qué horario se pueden hacer arreglos adentro del departamento? ¿Puede venir el albañil un sábado?",
+      "estado_esperado": "CONSULTA_RESPONDIDA",
+      "resultado": {
+        "estado": "CONSULTA_RESPONDIDA",
+        "respuesta": {
+          "texto": "El horario permitido para hacer arreglos dentro del departamento es de lunes a viernes de 8 a 17 hs y los sábados de 9 a 13 hs; los domingos y feriados no se permiten trabajos, salvo emergencias (REG-CEI-OBRAS). Por lo tanto, el albañil puede venir el sábado dentro del horario de 9 a 13.",
+          "origen": "RAG · LLM (groq)",
+          "fuentes": [
+            "REG-CEI-OBRAS",
+            "POL-RESP-UNIDAD",
+            "POL-INQUILINOS"
+          ]
+        },
+        "traza": [
+          {
+            "paso": "1",
+            "tipo": "Regla",
+            "nombre": "Recepción",
+            "resultado": "✅ mensaje con texto"
+          },
+          {
+            "paso": "3",
+            "tipo": "Regla",
+            "nombre": "Filtro de emergencias",
+            "resultado": "sin coincidencias"
+          },
+          {
+            "paso": "2",
+            "tipo": "Regla",
+            "nombre": "Identificar al vecino en el padrón",
+            "resultado": "✅ teléfono registrado"
+          },
+          {
+            "paso": "4",
+            "tipo": "LLM",
+            "nombre": "Interpretar el mensaje",
+            "resultado": "intención = CONSULTA_REGLAMENTO"
+          },
+          {
+            "paso": "5",
+            "tipo": "Regla",
+            "nombre": "Validar contrato y unidad",
+            "resultado": "✅ no hace falta"
+          },
+          {
+            "paso": "—",
+            "tipo": "Regla",
+            "nombre": "Enrutar por intención",
+            "resultado": "CONSULTA_REGLAMENTO → RAG sobre el reglamento"
+          },
+          {
+            "paso": "6",
+            "tipo": "RAG",
+            "nombre": "Buscar en el reglamento (CEI0880 + TODOS, vigentes)",
+            "resultado": "REG-CEI-OBRAS 0.64✅  POL-RESP-UNIDAD 0.47✅  POL-INQUILINOS 0.42✅"
+          },
+          {
+            "paso": "9",
+            "tipo": "LLM",
+            "nombre": "Responder con el contexto recuperado",
+            "resultado": "LLM (groq)"
+          },
+          {
+            "paso": "10",
+            "tipo": "Regla",
+            "nombre": "Validar la salida",
+            "resultado": "✅ cita REG-CEI-OBRAS, POL-RESP-UNIDAD, POL-INQUILINOS"
+          },
+          {
+            "paso": "11",
+            "tipo": "Regla",
+            "nombre": "Enviar y registrar la interacción",
+            "resultado": "estado CONSULTA_RESPONDIDA"
+          }
+        ],
+        "extraccion": {
+          "intencion": "CONSULTA_REGLAMENTO",
+          "edificio_mencionado": null,
+          "unidad_mencionada": null,
+          "rubro": null,
+          "ubicacion": null,
+          "descripcion_problema": null,
+          "numero_reclamo_mencionado": null
+        },
+        "rag": {
+          "fuentes": [
+            "REG-CEI-OBRAS",
+            "POL-RESP-UNIDAD",
+            "POL-INQUILINOS"
+          ],
+          "candidatos": [
+            [
+              "REG-CEI-OBRAS",
+              0.64,
+              true
+            ],
+            [
+              "POL-RESP-UNIDAD",
+              0.47,
+              true
+            ],
+            [
+              "POL-INQUILINOS",
+              0.42,
+              true
+            ]
+          ],
+          "estado": "RESPONDIDA",
+          "origen": "LLM (groq)"
+        }
+      }
+    },
+    {
+      "caso": 12,
+      "tipo": "Consulta de política",
+      "mensaje": "Una consulta: cuando se rompe el ascensor, ¿cuánto tardan en mandar a alguien?",
+      "estado_esperado": "CONSULTA_RESPONDIDA",
+      "resultado": {
+        "estado": "CONSULTA_RESPONDIDA",
+        "respuesta": {
+          "texto": "Para el ascensor se aplica prioridad alta, así que enviamos a alguien dentro de 24 horas (POL-PLAZOS).",
+          "origen": "RAG · LLM (groq)",
+          "fuentes": [
+            "POL-PLAZOS",
+            "POL-CANAL"
+          ]
+        },
+        "traza": [
+          {
+            "paso": "1",
+            "tipo": "Regla",
+            "nombre": "Recepción",
+            "resultado": "✅ mensaje con texto"
+          },
+          {
+            "paso": "3",
+            "tipo": "Regla",
+            "nombre": "Filtro de emergencias",
+            "resultado": "sin coincidencias"
+          },
+          {
+            "paso": "2",
+            "tipo": "Regla",
+            "nombre": "Identificar al vecino en el padrón",
+            "resultado": "✅ teléfono registrado"
+          },
+          {
+            "paso": "4",
+            "tipo": "LLM",
+            "nombre": "Interpretar el mensaje",
+            "resultado": "intención = CONSULTA_REGLAMENTO"
+          },
+          {
+            "paso": "5",
+            "tipo": "Regla",
+            "nombre": "Validar contrato y unidad",
+            "resultado": "✅ no hace falta"
+          },
+          {
+            "paso": "—",
+            "tipo": "Regla",
+            "nombre": "Enrutar por intención",
+            "resultado": "CONSULTA_REGLAMENTO → RAG sobre el reglamento"
+          },
+          {
+            "paso": "6",
+            "tipo": "RAG",
+            "nombre": "Buscar en el reglamento (TIP1450 + TODOS, vigentes)",
+            "resultado": "POL-PLAZOS 0.50✅  POL-CANAL 0.36✅  REG-TIP-OBRAS 0.32✗"
+          },
+          {
+            "paso": "9",
+            "tipo": "LLM",
+            "nombre": "Responder con el contexto recuperado",
+            "resultado": "LLM (groq)"
+          },
+          {
+            "paso": "10",
+            "tipo": "Regla",
+            "nombre": "Validar la salida",
+            "resultado": "✅ cita POL-PLAZOS, POL-CANAL"
+          },
+          {
+            "paso": "11",
+            "tipo": "Regla",
+            "nombre": "Enviar y registrar la interacción",
+            "resultado": "estado CONSULTA_RESPONDIDA"
+          }
+        ],
+        "extraccion": {
+          "intencion": "CONSULTA_REGLAMENTO",
+          "edificio_mencionado": null,
+          "unidad_mencionada": null,
+          "rubro": "ascensor",
+          "ubicacion": "espacio_comun",
+          "descripcion_problema": null,
+          "numero_reclamo_mencionado": null
+        },
+        "rag": {
+          "fuentes": [
+            "POL-PLAZOS",
+            "POL-CANAL"
+          ],
+          "candidatos": [
+            [
+              "POL-PLAZOS",
+              0.5,
+              true
+            ],
+            [
+              "POL-CANAL",
+              0.36,
+              true
+            ],
+            [
+              "REG-TIP-OBRAS",
+              0.32,
+              false
+            ]
+          ],
+          "estado": "RESPONDIDA",
+          "origen": "LLM (groq)"
+        }
+      }
+    },
+    {
+      "caso": 13,
+      "tipo": "Consulta fuera del corpus",
+      "mensaje": "¿Se puede tener un perro en el departamento?",
+      "estado_esperado": "DERIVADO",
+      "resultado": {
+        "estado": "DERIVADO",
+        "respuesta": {
+          "texto": "No tengo información oficial sobre esa consulta. Derivamos tu consulta al equipo administrativo, que te va a responder por este medio.",
+          "origen": "RESPUESTA FIJA (el reglamento no cubre la consulta)"
+        },
+        "traza": [
+          {
+            "paso": "1",
+            "tipo": "Regla",
+            "nombre": "Recepción",
+            "resultado": "✅ mensaje con texto"
+          },
+          {
+            "paso": "3",
+            "tipo": "Regla",
+            "nombre": "Filtro de emergencias",
+            "resultado": "sin coincidencias"
+          },
+          {
+            "paso": "2",
+            "tipo": "Regla",
+            "nombre": "Identificar al vecino en el padrón",
+            "resultado": "✅ teléfono registrado"
+          },
+          {
+            "paso": "4",
+            "tipo": "LLM",
+            "nombre": "Interpretar el mensaje",
+            "resultado": "intención = CONSULTA_REGLAMENTO"
+          },
+          {
+            "paso": "5",
+            "tipo": "Regla",
+            "nombre": "Validar contrato y unidad",
+            "resultado": "✅ no hace falta"
+          },
+          {
+            "paso": "—",
+            "tipo": "Regla",
+            "nombre": "Enrutar por intención",
+            "resultado": "CONSULTA_REGLAMENTO → RAG sobre el reglamento"
+          },
+          {
+            "paso": "6",
+            "tipo": "RAG",
+            "nombre": "Buscar en el reglamento (TIP1450 + TODOS, vigentes)",
+            "resultado": "POL-INQUILINOS 0.42✅  POL-RESP-UNIDAD 0.34✗  REG-TIP-OBRAS 0.30✗"
+          },
+          {
+            "paso": "9",
+            "tipo": "LLM",
+            "nombre": "Responder con el contexto recuperado",
+            "resultado": "LLM (groq) · el contexto recuperado no responde la consulta"
+          },
+          {
+            "paso": "10",
+            "tipo": "Regla",
+            "nombre": "Validar la salida",
+            "resultado": "✋ no se envía: sin información oficial"
+          },
+          {
+            "paso": "11",
+            "tipo": "Regla",
+            "nombre": "Enviar y registrar la interacción",
+            "resultado": "estado DERIVADO"
+          }
+        ],
+        "motivo": "LLM (groq) · el contexto recuperado no responde la consulta",
+        "extraccion": {
+          "intencion": "CONSULTA_REGLAMENTO",
+          "edificio_mencionado": null,
+          "unidad_mencionada": null,
+          "rubro": null,
+          "ubicacion": null,
+          "descripcion_problema": null,
+          "numero_reclamo_mencionado": null
+        },
+        "rag": {
+          "fuentes": [
+            "POL-INQUILINOS"
+          ],
+          "candidatos": [
+            [
+              "POL-INQUILINOS",
+              0.42,
+              true
+            ],
+            [
+              "POL-RESP-UNIDAD",
+              0.34,
+              false
+            ],
+            [
+              "REG-TIP-OBRAS",
+              0.3,
+              false
+            ]
+          ],
+          "estado": "SIN_INFORMACION",
+          "origen": "LLM (groq) · el contexto recuperado no responde la consulta"
         }
       }
     }

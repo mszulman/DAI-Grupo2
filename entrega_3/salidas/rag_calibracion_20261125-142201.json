@@ -1,0 +1,365 @@
+{
+  "fecha": "2026-11-25T14:22:01",
+  "proveedor": "gemini",
+  "modelo": "gemini-3.5-flash",
+  "embeddings": "jinaai/jina-embeddings-v2-base-es",
+  "umbral": 0.35,
+  "k": 3,
+  "minimo_dentro": 0.33,
+  "maximo_fuera": 0.41,
+  "umbral_sugerido": null,
+  "preguntas": [
+    {
+      "pregunta": "¿Cuánto tardan en mandar a alguien si se rompe el ascensor?",
+      "edificio": "TIP1450",
+      "esperado": "POL-PLAZOS",
+      "similitud_esperado_o_mejor": 0.48,
+      "primero": "POL-PLAZOS",
+      "acierto_top1": true,
+      "candidatos": [
+        [
+          "POL-PLAZOS",
+          0.48
+        ],
+        [
+          "POL-CANAL",
+          0.36
+        ],
+        [
+          "POL-FILTRACIONES",
+          0.31
+        ]
+      ]
+    },
+    {
+      "pregunta": "¿Quién paga el arreglo de la canilla de mi cocina?",
+      "edificio": "TIP1450",
+      "esperado": "POL-RESP-UNIDAD",
+      "similitud_esperado_o_mejor": 0.5,
+      "primero": "POL-RESP-UNIDAD",
+      "acierto_top1": true,
+      "candidatos": [
+        [
+          "POL-RESP-UNIDAD",
+          0.5
+        ],
+        [
+          "POL-FILTRACIONES",
+          0.43
+        ],
+        [
+          "POL-RESP-COMUN",
+          0.42
+        ]
+      ]
+    },
+    {
+      "pregunta": "¿La bomba de agua del edificio la paga el consorcio?",
+      "edificio": "CEI0880",
+      "esperado": "POL-RESP-COMUN",
+      "similitud_esperado_o_mejor": 0.58,
+      "primero": "POL-RESP-COMUN",
+      "acierto_top1": true,
+      "candidatos": [
+        [
+          "POL-RESP-COMUN",
+          0.58
+        ],
+        [
+          "POL-FILTRACIONES",
+          0.5
+        ],
+        [
+          "POL-RESP-UNIDAD",
+          0.43
+        ]
+      ]
+    },
+    {
+      "pregunta": "Me cae agua del techo del baño y viene del departamento de arriba, ¿quién se encarga?",
+      "edificio": "TIP1450",
+      "esperado": "POL-FILTRACIONES",
+      "similitud_esperado_o_mejor": 0.63,
+      "primero": "POL-FILTRACIONES",
+      "acierto_top1": true,
+      "candidatos": [
+        [
+          "POL-FILTRACIONES",
+          0.63
+        ],
+        [
+          "POL-RESP-UNIDAD",
+          0.48
+        ],
+        [
+          "POL-CANAL",
+          0.32
+        ]
+      ]
+    },
+    {
+      "pregunta": "Si llamo yo a un plomero por un problema del edificio, ¿me devuelven la plata?",
+      "edificio": "CEI0880",
+      "esperado": "POL-REINTEGRO",
+      "similitud_esperado_o_mejor": 0.64,
+      "primero": "POL-REINTEGRO",
+      "acierto_top1": true,
+      "candidatos": [
+        [
+          "POL-REINTEGRO",
+          0.64
+        ],
+        [
+          "POL-FILTRACIONES",
+          0.53
+        ],
+        [
+          "POL-CANAL",
+          0.48
+        ]
+      ]
+    },
+    {
+      "pregunta": "¿Puedo hacer venir al albañil un sábado?",
+      "edificio": "CEI0880",
+      "esperado": "REG-CEI-OBRAS",
+      "similitud_esperado_o_mejor": 0.46,
+      "primero": "REG-CEI-OBRAS",
+      "acierto_top1": true,
+      "candidatos": [
+        [
+          "REG-CEI-OBRAS",
+          0.46
+        ],
+        [
+          "POL-INQUILINOS",
+          0.25
+        ],
+        [
+          "POL-REINTEGRO",
+          0.24
+        ]
+      ]
+    },
+    {
+      "pregunta": "¿Puedo hacer venir al albañil un sábado?",
+      "edificio": "TIP1450",
+      "esperado": "REG-TIP-OBRAS",
+      "similitud_esperado_o_mejor": 0.47,
+      "primero": "REG-TIP-OBRAS",
+      "acierto_top1": true,
+      "candidatos": [
+        [
+          "REG-TIP-OBRAS",
+          0.47
+        ],
+        [
+          "REG-TIP-TERRAZA",
+          0.26
+        ],
+        [
+          "POL-INQUILINOS",
+          0.25
+        ]
+      ]
+    },
+    {
+      "pregunta": "Alquilo el departamento, ¿puedo reclamar por la luz del pasillo?",
+      "edificio": "CEI0880",
+      "esperado": "POL-INQUILINOS",
+      "similitud_esperado_o_mejor": 0.63,
+      "primero": "POL-INQUILINOS",
+      "acierto_top1": true,
+      "candidatos": [
+        [
+          "POL-INQUILINOS",
+          0.63
+        ],
+        [
+          "POL-RESP-UNIDAD",
+          0.47
+        ],
+        [
+          "POL-CANAL",
+          0.38
+        ]
+      ]
+    },
+    {
+      "pregunta": "¿Cómo hago para que me den un número de reclamo?",
+      "edificio": "TIP1450",
+      "esperado": "POL-CANAL",
+      "similitud_esperado_o_mejor": 0.52,
+      "primero": "POL-CANAL",
+      "acierto_top1": true,
+      "candidatos": [
+        [
+          "POL-CANAL",
+          0.52
+        ],
+        [
+          "POL-INQUILINOS",
+          0.35
+        ],
+        [
+          "POL-REINTEGRO",
+          0.33
+        ]
+      ]
+    },
+    {
+      "pregunta": "¿Por qué mi reclamo por la pintura quedó con prioridad baja?",
+      "edificio": "TIP1450",
+      "esperado": "POL-PRIORIDAD",
+      "similitud_esperado_o_mejor": 0.52,
+      "primero": "POL-PRIORIDAD",
+      "acierto_top1": true,
+      "candidatos": [
+        [
+          "POL-PRIORIDAD",
+          0.52
+        ],
+        [
+          "POL-PLAZOS",
+          0.39
+        ],
+        [
+          "POL-FILTRACIONES",
+          0.26
+        ]
+      ]
+    },
+    {
+      "pregunta": "¿Puedo poner el equipo de aire acondicionado en la terraza?",
+      "edificio": "TIP1450",
+      "esperado": "REG-TIP-TERRAZA",
+      "similitud_esperado_o_mejor": 0.54,
+      "primero": "REG-TIP-TERRAZA",
+      "acierto_top1": true,
+      "candidatos": [
+        [
+          "REG-TIP-TERRAZA",
+          0.54
+        ],
+        [
+          "POL-FILTRACIONES",
+          0.32
+        ],
+        [
+          "POL-INQUILINOS",
+          0.27
+        ]
+      ]
+    },
+    {
+      "pregunta": "Siento olor a gas en la cocina, ¿qué tengo que hacer?",
+      "edificio": "CEI0880",
+      "esperado": "POL-EMERGENCIA",
+      "similitud_esperado_o_mejor": 0.33,
+      "primero": "POL-EMERGENCIA",
+      "acierto_top1": true,
+      "candidatos": [
+        [
+          "POL-EMERGENCIA",
+          0.33
+        ],
+        [
+          "POL-INQUILINOS",
+          0.13
+        ],
+        [
+          "POL-RESP-UNIDAD",
+          0.12
+        ]
+      ]
+    },
+    {
+      "pregunta": "¿Puedo tener un perro en el departamento?",
+      "edificio": "TIP1450",
+      "esperado": null,
+      "similitud_esperado_o_mejor": 0.41,
+      "primero": "POL-INQUILINOS",
+      "acierto_top1": null,
+      "candidatos": [
+        [
+          "POL-INQUILINOS",
+          0.41
+        ],
+        [
+          "POL-RESP-UNIDAD",
+          0.34
+        ],
+        [
+          "REG-TIP-OBRAS",
+          0.29
+        ]
+      ]
+    },
+    {
+      "pregunta": "¿Aceptan pagar las expensas con tarjeta de crédito?",
+      "edificio": "CEI0880",
+      "esperado": null,
+      "similitud_esperado_o_mejor": 0.41,
+      "primero": "POL-REINTEGRO",
+      "acierto_top1": null,
+      "candidatos": [
+        [
+          "POL-REINTEGRO",
+          0.41
+        ],
+        [
+          "POL-RESP-COMUN",
+          0.26
+        ],
+        [
+          "POL-FILTRACIONES",
+          0.15
+        ]
+      ]
+    },
+    {
+      "pregunta": "¿Cuándo es la próxima asamblea de propietarios?",
+      "edificio": "TIP1450",
+      "esperado": null,
+      "similitud_esperado_o_mejor": 0.33,
+      "primero": "REG-TIP-TERRAZA",
+      "acierto_top1": null,
+      "candidatos": [
+        [
+          "REG-TIP-TERRAZA",
+          0.33
+        ],
+        [
+          "REG-TIP-OBRAS",
+          0.28
+        ],
+        [
+          "POL-REINTEGRO",
+          0.26
+        ]
+      ]
+    },
+    {
+      "pregunta": "¿Se puede usar la parrilla de la terraza el fin de semana?",
+      "edificio": "TIP1450",
+      "esperado": null,
+      "similitud_esperado_o_mejor": 0.35,
+      "primero": "REG-TIP-TERRAZA",
+      "acierto_top1": null,
+      "candidatos": [
+        [
+          "REG-TIP-TERRAZA",
+          0.35
+        ],
+        [
+          "REG-TIP-OBRAS",
+          0.33
+        ],
+        [
+          "POL-INQUILINOS",
+          0.17
+        ]
+      ]
+    }
+  ]
+}
